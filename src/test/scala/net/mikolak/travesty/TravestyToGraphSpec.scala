@@ -1,12 +1,14 @@
 package net.mikolak.travesty
 
 import akka.stream.ClosedShape
-import akka.stream.scaladsl.{BidiFlow, Broadcast, Flow, GraphDSL, RunnableGraph, Sink, Source, ZipWith}
+import akka.stream.scaladsl.{BidiFlow, Broadcast, Flow, GraphDSL, RestartSource, RunnableGraph, Sink, Source, ZipWith}
 import gremlin.scala._
 import net.mikolak.travesty
 import net.mikolak.travesty.LowLevelApi.properties
 import org.scalatest.words.MustVerb
 import org.scalatest.{FlatSpec, MustMatchers}
+
+import scala.concurrent.duration.Duration
 
 class TravestyToGraphSpec extends FlatSpec with MustMatchers with MustVerb {
 
@@ -193,6 +195,15 @@ class TravestyToGraphSpec extends FlatSpec with MustMatchers with MustVerb {
     vertices must have size 4
 
     result.E().simplePath().toList() must have size 3
+  }
+
+  it must "process RestartSources" in {
+    val input = RestartSource.withBackoff(Duration.Zero, Duration.Zero, 0.5)(() => Source.single("t")).to(Sink.ignore)
+
+    val result = tested(input)
+
+    result.V().toList() must have size 2
+    result.E().toList() must have size 1
   }
 
 }
