@@ -1,14 +1,12 @@
 package net.mikolak.travesty
 
 import akka.stream.ClosedShape
-import akka.stream.scaladsl.{Broadcast, GraphDSL, RunnableGraph, Sink, Source, ZipWith}
-import guru.nidi.graphviz.engine.Graphviz
-import net.mikolak
-import net.mikolak.travesty
-import guru.nidi.graphviz.model.{Link, MutableGraph, MutableNode, Node, Graph => VizGraph}
+import akka.stream.scaladsl.{Broadcast, Flow, GraphDSL, RunnableGraph, Sink, Source, ZipWith}
+import guru.nidi.graphviz.model.{MutableGraph, Graph => VizGraph}
 import guru.nidi.graphviz.parse.Parser
-import org.scalatest.{FlatSpec, MustMatchers}
+import net.mikolak.travesty
 import org.scalatest.words.MustVerb
+import org.scalatest.{FlatSpec, MustMatchers}
 
 import scala.collection.JavaConverters._
 
@@ -57,6 +55,16 @@ class LowLevelApiSpec extends FlatSpec with MustMatchers with MustVerb {
     val output = calculateResult(input)
     output.nodeList() must have size 4
     output.linkList() must have size 4
+  }
+
+  it must "differentiate between same-named stages" in {
+    val input =
+      Source.single("t").via(Flow[String].map(_ + "a").named("map")).via(Flow[String].map(_ + "a").named("map")).to(Sink.seq)
+
+    val output = calculateResult(input)
+
+    output.nodeList() must have size 4
+    output.linkList() must have size 3
   }
 
   implicit class MutGraphExtras(g: MutableGraph) {

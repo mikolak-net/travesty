@@ -183,4 +183,16 @@ class TravestyToGraphSpec extends FlatSpec with MustMatchers with MustVerb {
     vertices must have size 3
   }
 
+  it must "differentiate between same-named stages" in {
+    val input =
+      Source.single("t").via(Flow[String].map(_ + "a").named("map")).via(Flow[String].map(_ + "a").named("map")).to(Sink.seq)
+
+    val result = tested(input)
+
+    val vertices = result.V().toList()
+    vertices must have size 4
+
+    result.E().simplePath().toList() must have size 3
+  }
+
 }
