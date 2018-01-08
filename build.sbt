@@ -1,12 +1,15 @@
 organization := "net.mikolak"
 name := "travesty"
-version := "0.2.15-SNAPSHOT"
+version := s"0.2.15_$akkaVersion-SNAPSHOT"
+
+lazy val akkaVersion = Option(System.getProperty("akkaVersion")).getOrElse(defaultAkkaVersion)
+lazy val defaultAkkaVersion = "2.5.7"
 
 scalaVersion := "2.12.4"
 
 resolvers += "indvd00m-github-repo" at "https://raw.githubusercontent.com/indvd00m/maven-repo/master/repository"
 
-libraryDependencies ++= Seq("com.typesafe.akka" %% "akka-stream" % "2.5.7",
+libraryDependencies ++= Seq("com.typesafe.akka" %% "akka-stream" % akkaVersion,
   "guru.nidi" % "graphviz-java" % "0.2.2",
   "com.michaelpollmeier" %% "gremlin-scala" % "3.3.0.4",
   "org.apache.tinkerpop" % "tinkergraph-gremlin" % "3.3.0",
