@@ -1,6 +1,6 @@
 organization := "net.mikolak"
 name := "travesty"
-version := "0.22"
+version := "0.2.15-SNAPSHOT"
 
 scalaVersion := "2.12.4"
 

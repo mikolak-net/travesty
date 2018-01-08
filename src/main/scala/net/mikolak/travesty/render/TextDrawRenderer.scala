@@ -21,7 +21,10 @@ private[travesty] object TextDrawRenderer {
 
     val drawableVizGraph = Parser.read(xdotStr)
 
-    val allNodes = drawableVizGraph.nodes().asScala
+    val allNodes = drawableVizGraph.nodes().asScala ++ drawableVizGraph
+      .graphs()
+      .asScala
+      .flatMap(_.nodes().asScala)
     val allEdges = allNodes.flatMap(_.links().asScala).toSet
 
     def createCanvas(g: MutableGraph) = {
@@ -51,7 +54,7 @@ private[travesty] object TextDrawRenderer {
     }
 
     for {
-      node <- allNodes
+      node <- allNodes if node.attrs().asScala.nonEmpty //subgraphs have empty attrs, but are important for edges
     } {
       { //node shape
         val Array(x0, y0, w, h) = node.attrs().skipToInstruction("draw", "e").map(_.toCoord)
