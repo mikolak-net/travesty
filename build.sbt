@@ -16,4 +16,6 @@ libraryDependencies ++= Seq("com.typesafe.akka" %% "akka-stream" % "2.5.7",
 Seq("org.scalatest" %% "scalatest" % "3.0.4",
 "org.slf4j" % "slf4j-simple" % "1.7.5").map(_ % "test")
 
+dependencyOverrides += "commons-io" % "commons-io" % "2.4"
+
 fork in Test := true
