@@ -1,6 +1,6 @@
 organization := "net.mikolak"
 name := "travesty"
-version := s"0.2.16_$akkaVersion-SNAPSHOT"
+version in ThisBuild ~= (_+s"_$akkaVersion")
 
 lazy val akkaVersion = Option(System.getProperty("akkaVersion")).getOrElse(defaultAkkaVersion)
 lazy val defaultAkkaVersion = "2.5.7"
