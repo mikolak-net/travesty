@@ -23,6 +23,7 @@ package object travesty {
                                         direction: FlowDirection = LeftToRight): BufferedImage =
     prepare(akkaGraph, direction).render(format.asJava).toImage
 
+  //noinspection AccessorLikeMethodIsUnit
   def toFile[T <: AkkaStream: TypeTag](akkaGraph: T, format: ImageFormat, direction: FlowDirection = LeftToRight)(
       fileName: String): Unit =
     prepare(akkaGraph, direction).render(format.asJava).toFile(new File(fileName))
