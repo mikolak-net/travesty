@@ -4,3 +4,6 @@ scala:
 env:
   - akkaVersion=2.5.7
   - akkaVersion=2.5.6
+  - akkaVersion=2.5.5
+  - akkaVersion=2.5.4
+  - akkaVersion=2.5.3
