@@ -6,7 +6,11 @@ import java.io.File
 import akka.stream.{Graph, Shape, StreamDeconstructorProxy}
 import gremlin.scala._
 import guru.nidi.graphviz.engine.{Graphviz, GraphvizJdkEngine, GraphvizV8Engine}
+import net.mikolak.travesty.LowLevelApi.properties
+import net.mikolak.travesty.render.PackageNameSimplifier
 import org.log4s._
+
+import scala.reflect.runtime.universe._
 
 package object travesty {
 
@@ -14,13 +18,18 @@ package object travesty {
 
   private val logger = getLogger
 
-  def toImage(akkaGraph: AkkaStream, format: ImageFormat, direction: FlowDirection = LeftToRight): BufferedImage =
+  def toImage[T <: AkkaStream: TypeTag](akkaGraph: T,
+                                        format: ImageFormat,
+                                        direction: FlowDirection = LeftToRight): BufferedImage =
     prepare(akkaGraph, direction).render(format.asJava).toImage
 
-  def toFile(akkaGraph: AkkaStream, format: ImageFormat, direction: FlowDirection = LeftToRight)(fileName: String): Unit =
+  def toFile[T <: AkkaStream: TypeTag](akkaGraph: T, format: ImageFormat, direction: FlowDirection = LeftToRight)(
+      fileName: String): Unit =
     prepare(akkaGraph, direction).render(format.asJava).toFile(new File(fileName))
 
-  def toString(akkaGraph: AkkaStream, format: TextFormat = Text, direction: FlowDirection = LeftToRight): String = {
+  def toString[T <: AkkaStream: TypeTag](akkaGraph: T,
+                                         format: TextFormat = Text,
+                                         direction: FlowDirection = LeftToRight): String = {
     val graphviz = prepare(akkaGraph, direction)
     if (format == Text) {
       logger.warn(s"Text format support is limited and may not render everything correctly.")
@@ -29,12 +38,18 @@ package object travesty {
     format.post(graphviz.render(format.asJava))
   }
 
-  def toAbstractGraph(akkaGraph: AkkaStream): ScalaGraph = StreamDeconstructorProxy(akkaGraph)
+  def toAbstractGraph[T <: AkkaStream: TypeTag](akkaGraph: T): ScalaGraph = {
+    val traversed     = StreamDeconstructorProxy(akkaGraph)
+    val graphTypeName = PackageNameSimplifier(typeOf[T].toString)
+    traversed.variables().set(properties.graph.GraphLabelKey, graphTypeName)
 
-  private def prepare(akkaGraph: AkkaStream, direction: FlowDirection): Graphviz = {
+    traversed
+  }
+
+  private def prepare[T <: AkkaStream: TypeTag](akkaGraph: T, direction: FlowDirection): Graphviz = {
     val in  = toAbstractGraph(akkaGraph)
     val out = LowLevelApi.toVizGraph(in)
-    Graphviz.fromGraph(out.generalAttr().`with`(direction.asJava))
+    Graphviz.fromGraph(out.generalAttr().`with`(direction.asJava).generalAttr().`with`("labelloc", "top"))
   }
 
   { //initialize GraphViz engine

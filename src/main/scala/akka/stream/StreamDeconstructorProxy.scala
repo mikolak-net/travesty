@@ -5,25 +5,25 @@ import akka.stream.impl.StreamLayout.AtomicModule
 import akka.stream.impl._
 import akka.stream.impl.fusing.GraphStageModule
 import gremlin.scala._
+import net.mikolak.travesty.AkkaStream
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph
 import org.log4s._
-
-import net.mikolak.travesty.LowLevelApi.{properties, EdgeLabel}
+import net.mikolak.travesty.LowLevelApi.{EdgeLabel, properties}
 
 /**
   * INTERNAL API
-  * Necessary to access package private Traversal.
+  * Package placement necessary to access package private Traversal.
   */
 object StreamDeconstructorProxy {
 
   private val logger = getLogger
 
-  def apply[S <: Shape](akkaGraph: Graph[S, _]): ScalaGraph = processTraversal(akkaGraph.traversalBuilder.traversal)
+  def apply(akkaGraph: AkkaStream): ScalaGraph = processTraversal(akkaGraph.traversalBuilder.traversal)
 
   def logGraph(traversal: Traversal): Unit =
     logger.trace("Traversal to stdout:\n" + PrintTraversalAccessor(traversal))
 
-  private def processTraversal[S <: Shape](traversal: Traversal): ScalaGraph = {
+  private def processTraversal(traversal: Traversal): ScalaGraph = {
     logGraph(traversal)
     val graph = TinkerGraph.open.asScala
 
@@ -45,13 +45,13 @@ object StreamDeconstructorProxy {
           .collect {
             case Name(name) => name
           }
-          .foreach(currentNode.setProperty(properties.StageName, _))
+          .foreach(currentNode.setProperty(properties.node.StageName, _))
 
         attributeStack = attributeStack.tail
       case MaterializeAtomic(module, slots) =>
         currentNode = graph.addVertex()
-        currentNode.setProperty(properties.ImplementationName, module.baseName)
-        currentNode.setProperty(properties.StageImplementation, module)
+        currentNode.setProperty(properties.node.ImplementationName, module.baseName)
+        currentNode.setProperty(properties.node.StageImplementation, module)
         val inOffset = inputMap.size
         //add the inputs per spec
         (inOffset until (inOffset + module.shape.inlets.length)).foreach(i => inputMap += (i -> currentNode))

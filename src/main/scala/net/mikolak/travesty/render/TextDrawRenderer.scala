@@ -1,13 +1,15 @@
 package net.mikolak.travesty.render
 
-import guru.nidi.graphviz.engine.{Renderer => GraphVizRenderer}
 import com.indvd00m.ascii.render.{Render, Point => DrawPoint, elements => draw}
 import guru.nidi.graphviz.attribute.MutableAttributed
-import guru.nidi.graphviz.model.{Link, MutableGraph}
+import guru.nidi.graphviz.engine.{Renderer => GraphVizRenderer}
+import guru.nidi.graphviz.model.{MutableGraph, MutableNode}
 import guru.nidi.graphviz.parse.Parser
 
 import scala.collection.JavaConverters._
 import scala.language.implicitConversions
+import net.mikolak.travesty.LowLevelApi.AttrScala
+import net.mikolak.travesty.LowLevelApi.properties.node
 
 /**
   * Warning - quickly written, temporary prototype. Proceed with reading at your own peril.
@@ -44,12 +46,12 @@ private[travesty] object TextDrawRenderer {
         edge.attrs().skipToInstruction("draw", "B").drop(1)
 
       //edge shape
-      drawPolygon(rawPoints).foreach(canvas.element)
+      createPolygon(rawPoints).foreach(canvas.element)
 
       //edge labels
       for (edgeType <- List("h", "t")) {
         val edgeRawPoints = edge.attrs().skipToInstruction(s"${edgeType}draw", "P").drop(1)
-        drawPolygon(edgeRawPoints).foreach(canvas.element)
+        createPolygon(edgeRawPoints).foreach(canvas.element)
       }
     }
 
@@ -62,18 +64,25 @@ private[travesty] object TextDrawRenderer {
       }
 
       { //node label
-        val textConfig                    = node.attrs().skipToInstruction("ldraw", "T")
-        val Array(x, yBaseline, j, width) = textConfig.take(4).map(_.toCoord)
-        val text                          = textConfig.last.tail
-
-        canvas.element(new draw.Label(text, x - (text.length / 2), yBaseline + 1))
+        canvas.element(createLabel(node.attrs()))
       }
     }
+
+    //draw graph label
+    canvas.element(createLabel(drawableVizGraph.graphAttrs()))
 
     textRenderer.render(canvas.build()).getText
   }
 
-  private def drawPolygon(rawCoords: Array[String]): Iterator[draw.Line] = {
+  private def createLabel(attrs: MutableAttributed[_]) = {
+    val textConfig                    = attrs.skipToInstruction("ldraw", "T")
+    val Array(x, yBaseline, j, width) = textConfig.take(4).map(_.toCoord)
+    val text                          = textConfig.last.tail
+
+    new draw.Label(text, x - (text.length / 2), yBaseline + 1)
+  }
+
+  private def createPolygon(rawCoords: Array[String]): Iterator[draw.Line] = {
     val coords = rawCoords.map(_.toCoord).grouped(2).toList
 
     for {
@@ -83,13 +92,9 @@ private[travesty] object TextDrawRenderer {
     }
   }
 
-  private implicit class AttrScala[T](attrSource: MutableAttributed[T]) {
-
-    def toMap: Map[String, String] = attrSource.iterator().asScala.map(e => (e.getKey, e.getValue.toString)).toMap
-
+  private implicit class DrawableAttrs[T](attrSource: MutableAttributed[T]) {
     def skipToInstruction(attr: String, code: String): Array[String] =
-      toMap.get(s"_${attr}_").map(_.split(" ").dropWhile(_ != code).tail).getOrElse(Array.empty[String])
-
+      attrSource.toMap.get(s"_${attr}_").map(_.split(" ").dropWhile(_ != code).tail).getOrElse(Array.empty[String])
   }
 
   private implicit class ScaledIntString(val s: String) extends AnyVal {

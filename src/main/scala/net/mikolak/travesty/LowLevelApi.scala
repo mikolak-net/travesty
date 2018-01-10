@@ -1,20 +1,21 @@
 package net.mikolak.travesty
 import gremlin.scala.ScalaGraph
-import guru.nidi.graphviz.model.{Node => VizNode, Factory => vG, Graph => VizGraph}
+import guru.nidi.graphviz.model.{Label, Factory => vG, Graph => VizGraph, Node => VizNode}
 import gremlin.scala._
-import guru.nidi.graphviz.attribute.Rank
+import guru.nidi.graphviz.attribute.{MutableAttributed, Rank}
+import net.mikolak.travesty.LowLevelApi.properties.graph.GraphLabelKey
 
 object LowLevelApi {
 
   def toVizGraph(in: ScalaGraph): VizGraph = {
-    var out = vG.graph("stream").directed()
+    var out = vG.graph().directed()
 
     def rankedSingleton(node: VizNode, rank: Rank) = vG.graph().`with`(node).graphAttr().`with`(rank)
 
-    def implOf(v: Vertex) = v.asScala.property(properties.StageImplementation).value()
+    def implOf(v: Vertex) = v.asScala.property(properties.node.StageImplementation).value()
 
     val implNames = in.V().l().foldRight(Map.empty[AkkaStream, String]) { (v, map) =>
-      val baseName = v.asScala.property(properties.StageName).value()
+      val baseName = v.asScala.property(properties.node.StageName).value()
       val impl     = implOf(v)
       if (map.contains(impl)) {
         map
@@ -54,13 +55,33 @@ object LowLevelApi {
       }
       out = out.`with`(node)
     }
+
+    //add graph title
+    out = out.generalAttr().`with`(Label.of(in.props(GraphLabelKey).getOrElse("")))
+
     out
   }
 
+  private[travesty] implicit class GraphWithProperties(scalaGraph: ScalaGraph) {
+    import scala.compat.java8.OptionConverters._
+    val props: (String) => Option[String] = scalaGraph.variables().get(_).asScala
+  }
+
+  private[travesty] implicit class AttrScala[T](attrSource: MutableAttributed[T]) {
+    import scala.collection.JavaConverters._
+    def toMap: Map[String, String] = attrSource.iterator().asScala.map(e => (e.getKey, e.getValue.toString)).toMap
+  }
+
   object properties {
-    val StageName: Key[String]               = Key[String]("stageName")
-    val ImplementationName: Key[String]      = Key[String]("implName")
-    val StageImplementation: Key[AkkaStream] = Key[AkkaStream]("stageImpl")
+    object graph {
+      val GraphLabelKey: String = "stream_label"
+    }
+
+    object node {
+      val StageName: Key[String]               = Key[String]("stageName")
+      val ImplementationName: Key[String]      = Key[String]("implName")
+      val StageImplementation: Key[AkkaStream] = Key[AkkaStream]("stageImpl")
+    }
   }
 
   val EdgeLabel = "to"

@@ -2,7 +2,6 @@ package net.mikolak.travesty
 
 import akka.stream.ClosedShape
 import akka.stream.scaladsl.{Broadcast, Flow, GraphDSL, RunnableGraph, Sink, Source, ZipWith}
-import guru.nidi.graphviz.attribute.{Attributes, Rank}
 import guru.nidi.graphviz.model.{MutableGraph, Graph => VizGraph}
 import guru.nidi.graphviz.parse.Parser
 import net.mikolak.travesty
@@ -10,12 +9,13 @@ import org.scalatest.words.MustVerb
 import org.scalatest.{FlatSpec, MustMatchers}
 
 import scala.collection.JavaConverters._
+import scala.reflect.runtime.universe._
 
 class LowLevelApiSpec extends FlatSpec with MustMatchers with MustVerb {
 
-  val tested: AkkaStream => VizGraph = (travesty.toAbstractGraph _).andThen(LowLevelApi.toVizGraph)
+  def tested[T <: AkkaStream: TypeTag](t: T): VizGraph = LowLevelApi.toVizGraph(travesty.toAbstractGraph(t))
 
-  val calculateResult: AkkaStream => MutableGraph = tested.andThen(_.toString).andThen(Parser.read)
+  def calculateResult[T <: AkkaStream: TypeTag](t: T): MutableGraph = Parser.read(tested(t).toString)
 
   "The Abstract Graph -> Graphviz converter" must "transform a trivial graph" in {
     val input = Source.empty.to(Sink.ignore)
@@ -78,6 +78,16 @@ class LowLevelApiSpec extends FlatSpec with MustMatchers with MustVerb {
     subGraphs must have size 3
     val subGraphRanks = subGraphs.flatMap(_.graphAttrs().iterator().asScala.filter(_.getKey == "rank").toList)
     subGraphRanks.map(_.getValue) must contain theSameElementsAs List("source", "sink", "sink")
+
+  }
+
+  it must "preserve names as graph labels" in {
+    import LowLevelApi.AttrScala
+    val input = Source.empty[String].to(Sink.ignore)
+
+    val output = calculateResult(input)
+
+    output.generalAttrs().toMap must contain(("label", "RunnableGraph[akka.NotUsed]"))
 
   }
 

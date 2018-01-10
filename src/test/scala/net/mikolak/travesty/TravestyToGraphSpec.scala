@@ -1,7 +1,7 @@
 package net.mikolak.travesty
 
 import akka.stream.ClosedShape
-import akka.stream.scaladsl.{BidiFlow, Broadcast, Flow, GraphDSL, RestartSource, RunnableGraph, Sink, Source, ZipWith}
+import akka.stream.scaladsl.{BidiFlow, Broadcast, Flow, GraphDSL, Keep, RestartSource, RunnableGraph, Sink, Source, ZipWith}
 import gremlin.scala._
 import net.mikolak.travesty
 import net.mikolak.travesty.LowLevelApi.properties
@@ -9,12 +9,13 @@ import org.scalatest.words.MustVerb
 import org.scalatest.{FlatSpec, MustMatchers}
 
 import scala.concurrent.duration.Duration
+import scala.reflect.runtime.universe._
 
 class TravestyToGraphSpec extends FlatSpec with MustMatchers with MustVerb {
 
-  val tested = travesty.toAbstractGraph _
+  def tested[T <: AkkaStream: TypeTag](g: T): ScalaGraph = travesty.toAbstractGraph(g)
 
-  import properties._
+  import properties.node._
 
   "The Stream -> Abstract Graph converter" must "decompose a trivial graph" in {
     val input = Source.empty.to(Sink.ignore)
@@ -204,6 +205,16 @@ class TravestyToGraphSpec extends FlatSpec with MustMatchers with MustVerb {
 
     result.V().toList() must have size 2
     result.E().toList() must have size 1
+  }
+
+  it must "preserve graph names" in {
+    import LowLevelApi.GraphWithProperties
+    import org.scalatest.OptionValues._
+    import properties.graph._
+    tested(Source.empty[String].to(Sink.ignore)).props(GraphLabelKey).value must be("RunnableGraph[akka.NotUsed]")
+
+    tested(Source.empty[String].toMat(Sink.seq[String])(Keep.right)).props(GraphLabelKey).value must be(
+      "RunnableGraph[Future[immutable.Seq[String]]]")
   }
 
 }
