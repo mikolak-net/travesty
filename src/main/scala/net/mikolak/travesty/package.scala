@@ -5,7 +5,7 @@ import java.io.File
 
 import akka.stream.{ClosedShape, Graph, StreamDeconstructorProxy}
 import gremlin.scala._
-import guru.nidi.graphviz.engine.{Graphviz, GraphvizJdkEngine, GraphvizV8Engine}
+import guru.nidi.graphviz.engine.{Graphviz, GraphvizCmdLineEngine, GraphvizJdkEngine, GraphvizV8Engine}
 import net.mikolak.travesty.LowLevelApi.properties
 import net.mikolak.travesty.render.PackageNameSimplifier
 import org.log4s._
@@ -53,6 +53,6 @@ package object travesty {
   }
 
   { //initialize GraphViz engine
-    Graphviz.useEngine(new GraphvizV8Engine, new GraphvizJdkEngine)
+    Graphviz.useEngine(new GraphvizJdkEngine, new GraphvizV8Engine, new GraphvizCmdLineEngine())
   }
 }
