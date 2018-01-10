@@ -3,7 +3,7 @@ package net.mikolak
 import java.awt.image.BufferedImage
 import java.io.File
 
-import akka.stream.{Graph, Shape, StreamDeconstructorProxy}
+import akka.stream.{ClosedShape, Graph, StreamDeconstructorProxy}
 import gremlin.scala._
 import guru.nidi.graphviz.engine.{Graphviz, GraphvizJdkEngine, GraphvizV8Engine}
 import net.mikolak.travesty.LowLevelApi.properties
@@ -14,7 +14,7 @@ import scala.reflect.runtime.universe._
 
 package object travesty {
 
-  type AkkaStream = Graph[_ <: Shape, _]
+  type AkkaStream = Graph[_ <: ClosedShape, _]
 
   private val logger = getLogger
 

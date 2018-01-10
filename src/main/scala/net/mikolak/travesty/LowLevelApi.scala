@@ -1,4 +1,5 @@
 package net.mikolak.travesty
+import akka.stream.Shape
 import gremlin.scala.ScalaGraph
 import guru.nidi.graphviz.model.{Label, Factory => vG, Graph => VizGraph, Node => VizNode}
 import gremlin.scala._
@@ -7,6 +8,8 @@ import net.mikolak.travesty.LowLevelApi.properties.graph.GraphLabelKey
 
 object LowLevelApi {
 
+  type AkkaStage = akka.stream.Graph[_ <: Shape, _]
+
   def toVizGraph(in: ScalaGraph): VizGraph = {
     var out = vG.graph().directed()
 
@@ -14,7 +17,7 @@ object LowLevelApi {
 
     def implOf(v: Vertex) = v.asScala.property(properties.node.StageImplementation).value()
 
-    val implNames = in.V().l().foldRight(Map.empty[AkkaStream, String]) { (v, map) =>
+    val implNames = in.V().l().foldRight(Map.empty[AkkaStage, String]) { (v, map) =>
       val baseName = v.asScala.property(properties.node.StageName).value()
       val impl     = implOf(v)
       if (map.contains(impl)) {
@@ -78,9 +81,9 @@ object LowLevelApi {
     }
 
     object node {
-      val StageName: Key[String]               = Key[String]("stageName")
-      val ImplementationName: Key[String]      = Key[String]("implName")
-      val StageImplementation: Key[AkkaStream] = Key[AkkaStream]("stageImpl")
+      val StageName: Key[String]              = Key("stageName")
+      val ImplementationName: Key[String]     = Key("implName")
+      val StageImplementation: Key[AkkaStage] = Key("stageImpl")
     }
   }
 
