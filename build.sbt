@@ -25,3 +25,26 @@ libraryDependencies ++= Seq(
 dependencyOverrides += "commons-io" % "commons-io" % "2.4"
 
 fork in Test := true
+
+
+//Sonatype OSS stuff (based on https://github.com/xerial/sbt-sonatype )
+publishTo := Some(
+  if (isSnapshot.value)
+    Opts.resolver.sonatypeSnapshots
+  else
+    Opts.resolver.sonatypeStaging
+)
+
+publishMavenStyle := true
+
+licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt"))
+homepage := Some(url("https://github.com/mikolak-net/travesty"))
+scmInfo := Some(
+  ScmInfo(
+    url("https://github.com/mikolak-net/travesty"),
+    "scm:git@github.com:mikolak-net/travesty.git"
+  )
+)
+developers := List(
+  Developer(id="mikolak-net", name="Mikołaj Koziarkiewicz", email="", url=url("http://mikolak.net"))
+)
