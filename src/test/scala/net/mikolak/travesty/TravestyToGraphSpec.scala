@@ -4,7 +4,7 @@ import akka.stream.ClosedShape
 import akka.stream.scaladsl.{BidiFlow, Broadcast, Flow, GraphDSL, Keep, RestartSource, RunnableGraph, Sink, Source, ZipWith}
 import gremlin.scala._
 import net.mikolak.travesty
-import net.mikolak.travesty.LowLevelApi.properties
+import net.mikolak.travesty.properties
 import org.scalatest.words.MustVerb
 import org.scalatest.{FlatSpec, MustMatchers}
 

@@ -9,7 +9,7 @@ import guru.nidi.graphviz.parse.Parser
 import scala.collection.JavaConverters._
 import scala.language.implicitConversions
 import net.mikolak.travesty.LowLevelApi.AttrScala
-import net.mikolak.travesty.LowLevelApi.properties.node
+import net.mikolak.travesty.properties.node
 
 /**
   * Warning - quickly written, temporary prototype. Proceed with reading at your own peril.

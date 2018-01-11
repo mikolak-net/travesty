@@ -4,7 +4,7 @@ import gremlin.scala.ScalaGraph
 import guru.nidi.graphviz.model.{Label, Factory => vG, Graph => VizGraph, Node => VizNode}
 import gremlin.scala._
 import guru.nidi.graphviz.attribute.{MutableAttributed, Rank}
-import net.mikolak.travesty.LowLevelApi.properties.graph.GraphLabelKey
+import net.mikolak.travesty.properties.graph.GraphLabelKey
 
 object LowLevelApi {
 
@@ -74,19 +74,5 @@ object LowLevelApi {
     import scala.collection.JavaConverters._
     def toMap: Map[String, String] = attrSource.iterator().asScala.map(e => (e.getKey, e.getValue.toString)).toMap
   }
-
-  object properties {
-    object graph {
-      val GraphLabelKey: String = "stream_label"
-    }
-
-    object node {
-      val StageName: Key[String]              = Key("stageName")
-      val ImplementationName: Key[String]     = Key("implName")
-      val StageImplementation: Key[AkkaStage] = Key("stageImpl")
-    }
-  }
-
-  val EdgeLabel = "to"
 
 }

@@ -5,10 +5,9 @@ import akka.stream.impl.StreamLayout.AtomicModule
 import akka.stream.impl._
 import akka.stream.impl.fusing.GraphStageModule
 import gremlin.scala._
-import net.mikolak.travesty.AkkaStream
+import net.mikolak.travesty.{AkkaStream, properties}
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph
 import org.log4s._
-import net.mikolak.travesty.LowLevelApi.{EdgeLabel, properties}
 
 /**
   * INTERNAL API
@@ -63,7 +62,9 @@ object StreamDeconstructorProxy {
       case Compose(_, _)               => //suported, no-op currently (FIXME: possibly include mat virtual nodes)
     }
 
-    edgeConstructions.foreach { case (outNode, inNodeIndex) => outNode --- EdgeLabel --> inputMap(inNodeIndex).asJava() }
+    edgeConstructions.foreach {
+      case (outNode, inNodeIndex) => outNode --- properties.edge.Label --> inputMap(inNodeIndex).asJava()
+    }
     graph
   }
 

@@ -6,7 +6,7 @@ import java.io.File
 import akka.stream.{ClosedShape, Graph, StreamDeconstructorProxy}
 import gremlin.scala._
 import guru.nidi.graphviz.engine.{Graphviz, GraphvizCmdLineEngine, GraphvizJdkEngine, GraphvizV8Engine}
-import net.mikolak.travesty.LowLevelApi.properties
+import net.mikolak.travesty.LowLevelApi.AkkaStage
 import net.mikolak.travesty.render.PackageNameSimplifier
 import org.log4s._
 
@@ -45,6 +45,23 @@ package object travesty {
     traversed.variables().set(properties.graph.GraphLabelKey, graphTypeName)
 
     traversed
+  }
+
+  object properties {
+    object graph {
+      val GraphLabelKey: String = "stream_label"
+    }
+
+    object node {
+      val StageName: Key[String]              = Key("stageName")
+      val ImplementationName: Key[String]     = Key("implName")
+      val StageImplementation: Key[AkkaStage] = Key("stageImpl")
+    }
+
+    object edge {
+      val Label = "to"
+    }
+
   }
 
   private def prepare[T <: AkkaStream: TypeTag](akkaGraph: T, direction: FlowDirection): Graphviz = {
