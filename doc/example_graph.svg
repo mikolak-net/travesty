@@ -1,0 +1,218 @@
+<svg width="1233pt" height="285pt"
+ viewBox="0.00 0.00 1232.71 284.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 280.8)">
+<title>%0</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-280.8 1228.7143,-280.8 1228.7143,4 -4,4"/>
+<text text-anchor="middle" x="612.3571" y="-260.2" font-family="Times,serif" font-size="14.00" fill="#000000">RunnableGraph[((akka.actor.ActorRef, akka.actor.ActorRef), SinkQueueWithCancel[Seq[MainScreen.this.Action]])]</text>
+<!-- queueSink -->
+<g id="node1" class="node">
+<title>queueSink</title>
+<ellipse fill="none" stroke="#000000" cx="1172.91" cy="-126" rx="51.6093" ry="18"/>
+<text text-anchor="middle" x="1172.91" y="-121.8" font-family="Times,serif" font-size="14.00" fill="#000000">queueSink</text>
+</g>
+<!-- actorRefSource(1) -->
+<g id="node2" class="node">
+<title>actorRefSource(1)</title>
+<ellipse fill="none" stroke="#000000" cx="82.3501" cy="-151" rx="82.2006" ry="18"/>
+<text text-anchor="middle" x="82.3501" y="-146.8" font-family="Times,serif" font-size="14.00" fill="#000000">actorRefSource(1)</text>
+</g>
+<!-- ZipWith2 -->
+<g id="node6" class="node">
+<title>ZipWith2</title>
+<ellipse fill="none" stroke="#000000" cx="694.9887" cy="-126" rx="48.6752" ry="18"/>
+<text text-anchor="middle" x="694.9887" y="-121.8" font-family="Times,serif" font-size="14.00" fill="#000000">ZipWith2</text>
+</g>
+<!-- actorRefSource(1)&#45;&gt;ZipWith2 -->
+<g id="edge17" class="edge">
+<title>actorRefSource(1)&#45;&gt;ZipWith2</title>
+<path fill="none" stroke="#000000" d="M164.9476,-151C216.522,-151 284.3008,-151 344.3402,-151 344.3402,-151 344.3402,-151 460.3162,-151 522.3448,-151 593.0796,-142.2569 640.5305,-135.1116"/>
+<polygon fill="#000000" stroke="#000000" points="641.2334,-138.5448 650.5869,-133.5687 640.1718,-131.6258 641.2334,-138.5448"/>
+</g>
+<!-- singleSource -->
+<g id="node3" class="node">
+<title>singleSource</title>
+<ellipse fill="none" stroke="#000000" cx="82.3501" cy="-97" rx="60.8332" ry="18"/>
+<text text-anchor="middle" x="82.3501" y="-92.8" font-family="Times,serif" font-size="14.00" fill="#000000">singleSource</text>
+</g>
+<!-- detacher -->
+<g id="node15" class="node">
+<title>detacher</title>
+<ellipse fill="none" stroke="#000000" cx="344.3402" cy="-97" rx="43.9789" ry="18"/>
+<text text-anchor="middle" x="344.3402" y="-92.8" font-family="Times,serif" font-size="14.00" fill="#000000">detacher</text>
+</g>
+<!-- singleSource&#45;&gt;detacher -->
+<g id="edge18" class="edge">
+<title>singleSource&#45;&gt;detacher</title>
+<path fill="none" stroke="#000000" d="M143.4445,-97C187.8646,-97 247.4501,-97 290.1733,-97"/>
+<polygon fill="#000000" stroke="#000000" points="290.3794,-100.5001 300.3794,-97 290.3793,-93.5001 290.3794,-100.5001"/>
+</g>
+<!-- actorRefSource -->
+<g id="node4" class="node">
+<title>actorRefSource</title>
+<ellipse fill="none" stroke="#000000" cx="82.3501" cy="-43" rx="71.1843" ry="18"/>
+<text text-anchor="middle" x="82.3501" y="-38.8" font-family="Times,serif" font-size="14.00" fill="#000000">actorRefSource</text>
+</g>
+<!-- batch -->
+<g id="node16" class="node">
+<title>batch</title>
+<ellipse fill="none" stroke="#000000" cx="232.6508" cy="-47" rx="31.9012" ry="18"/>
+<text text-anchor="middle" x="232.6508" y="-42.8" font-family="Times,serif" font-size="14.00" fill="#000000">batch</text>
+</g>
+<!-- actorRefSource&#45;&gt;batch -->
+<g id="edge19" class="edge">
+<title>actorRefSource&#45;&gt;batch</title>
+<path fill="none" stroke="#000000" d="M153.0994,-44.8829C165.8075,-45.2211 178.6841,-45.5638 190.2688,-45.8721"/>
+<polygon fill="#000000" stroke="#000000" points="190.4131,-49.3771 200.5027,-46.1444 190.5994,-42.3795 190.4131,-49.3771"/>
+</g>
+<!-- expand -->
+<g id="node5" class="node">
+<title>expand</title>
+<ellipse fill="none" stroke="#000000" cx="571.4773" cy="-103" rx="38.8478" ry="18"/>
+<text text-anchor="middle" x="571.4773" y="-98.8" font-family="Times,serif" font-size="14.00" fill="#000000">expand</text>
+</g>
+<!-- expand&#45;&gt;ZipWith2 -->
+<g id="edge1" class="edge">
+<title>expand&#45;&gt;ZipWith2</title>
+<path fill="none" stroke="#000000" d="M607.8668,-109.7764C618.4337,-111.7441 630.1999,-113.9352 641.5808,-116.0545"/>
+<polygon fill="#000000" stroke="#000000" points="640.9715,-119.5011 651.4432,-117.8911 642.253,-112.6194 640.9715,-119.5011"/>
+</g>
+<!-- broadcast -->
+<g id="node7" class="node">
+<title>broadcast</title>
+<ellipse fill="none" stroke="#000000" cx="827.6124" cy="-126" rx="48.0723" ry="18"/>
+<text text-anchor="middle" x="827.6124" y="-121.8" font-family="Times,serif" font-size="14.00" fill="#000000">broadcast</text>
+</g>
+<!-- ZipWith2&#45;&gt;broadcast -->
+<g id="edge16" class="edge">
+<title>ZipWith2&#45;&gt;broadcast</title>
+<path fill="none" stroke="#000000" d="M743.6198,-126C751.9239,-126 760.6271,-126 769.1545,-126"/>
+<polygon fill="#000000" stroke="#000000" points="769.4304,-129.5001 779.4303,-126 769.4303,-122.5001 769.4304,-129.5001"/>
+</g>
+<!-- map(4) -->
+<g id="node8" class="node">
+<title>map(4)</title>
+<ellipse fill="none" stroke="#000000" cx="950.5704" cy="-234" rx="38.844" ry="18"/>
+<text text-anchor="middle" x="950.5704" y="-229.8" font-family="Times,serif" font-size="14.00" fill="#000000">map(4)</text>
+</g>
+<!-- broadcast&#45;&gt;map(4) -->
+<g id="edge2" class="edge">
+<title>broadcast&#45;&gt;map(4)</title>
+<path fill="none" stroke="#000000" d="M843.9332,-143.2764C860.3497,-160.2734 886.7331,-186.5724 911.6485,-207 914.1924,-209.0857 916.8915,-211.1787 919.6354,-213.226"/>
+<polygon fill="#000000" stroke="#000000" points="917.7315,-216.1681 927.8901,-219.177 921.8251,-210.4899 917.7315,-216.1681"/>
+</g>
+<!-- map(3) -->
+<g id="node9" class="node">
+<title>map(3)</title>
+<ellipse fill="none" stroke="#000000" cx="950.5704" cy="-180" rx="38.844" ry="18"/>
+<text text-anchor="middle" x="950.5704" y="-175.8" font-family="Times,serif" font-size="14.00" fill="#000000">map(3)</text>
+</g>
+<!-- broadcast&#45;&gt;map(3) -->
+<g id="edge3" class="edge">
+<title>broadcast&#45;&gt;map(3)</title>
+<path fill="none" stroke="#000000" d="M858.958,-139.7662C875.4073,-146.9903 895.6801,-155.8936 912.9698,-163.4868"/>
+<polygon fill="#000000" stroke="#000000" points="911.6617,-166.7349 922.2251,-167.5515 914.4765,-160.3258 911.6617,-166.7349"/>
+</g>
+<!-- map(2) -->
+<g id="node10" class="node">
+<title>map(2)</title>
+<ellipse fill="none" stroke="#000000" cx="950.5704" cy="-126" rx="38.844" ry="18"/>
+<text text-anchor="middle" x="950.5704" y="-121.8" font-family="Times,serif" font-size="14.00" fill="#000000">map(2)</text>
+</g>
+<!-- broadcast&#45;&gt;map(2) -->
+<g id="edge4" class="edge">
+<title>broadcast&#45;&gt;map(2)</title>
+<path fill="none" stroke="#000000" d="M875.8557,-126C884.2742,-126 893.0402,-126 901.4811,-126"/>
+<polygon fill="#000000" stroke="#000000" points="901.5707,-129.5001 911.5707,-126 901.5707,-122.5001 901.5707,-129.5001"/>
+</g>
+<!-- map(1) -->
+<g id="node11" class="node">
+<title>map(1)</title>
+<ellipse fill="none" stroke="#000000" cx="950.5704" cy="-72" rx="38.844" ry="18"/>
+<text text-anchor="middle" x="950.5704" y="-67.8" font-family="Times,serif" font-size="14.00" fill="#000000">map(1)</text>
+</g>
+<!-- broadcast&#45;&gt;map(1) -->
+<g id="edge5" class="edge">
+<title>broadcast&#45;&gt;map(1)</title>
+<path fill="none" stroke="#000000" d="M858.958,-112.2338C875.4073,-105.0097 895.6801,-96.1064 912.9698,-88.5132"/>
+<polygon fill="#000000" stroke="#000000" points="914.4765,-91.6742 922.2251,-84.4485 911.6617,-85.2651 914.4765,-91.6742"/>
+</g>
+<!-- map -->
+<g id="node12" class="node">
+<title>map</title>
+<ellipse fill="none" stroke="#000000" cx="950.5704" cy="-18" rx="27.8286" ry="18"/>
+<text text-anchor="middle" x="950.5704" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#000000">map</text>
+</g>
+<!-- broadcast&#45;&gt;map -->
+<g id="edge6" class="edge">
+<title>broadcast&#45;&gt;map</title>
+<path fill="none" stroke="#000000" d="M843.9332,-108.7236C860.3497,-91.7266 886.7331,-65.4276 911.6485,-45 915.0112,-42.243 918.6452,-39.4731 922.295,-36.8131"/>
+<polygon fill="#000000" stroke="#000000" points="924.5699,-39.4915 930.7197,-30.8642 920.5321,-33.7734 924.5699,-39.4915"/>
+</g>
+<!-- zipN -->
+<g id="node13" class="node">
+<title>zipN</title>
+<ellipse fill="none" stroke="#000000" cx="1055.299" cy="-126" rx="29.6147" ry="18"/>
+<text text-anchor="middle" x="1055.299" y="-121.8" font-family="Times,serif" font-size="14.00" fill="#000000">zipN</text>
+</g>
+<!-- map(4)&#45;&gt;zipN -->
+<g id="edge9" class="edge">
+<title>map(4)&#45;&gt;zipN</title>
+<path fill="none" stroke="#000000" d="M974.031,-219.3169C979.3369,-215.5707 984.7878,-211.3608 989.4923,-207 1007.8234,-190.0082 1025.5076,-167.8077 1037.919,-150.9466"/>
+<polygon fill="#000000" stroke="#000000" points="1040.8794,-152.8258 1043.9043,-142.6719 1035.2076,-148.7233 1040.8794,-152.8258"/>
+</g>
+<!-- map(3)&#45;&gt;zipN -->
+<g id="edge11" class="edge">
+<title>map(3)&#45;&gt;zipN</title>
+<path fill="none" stroke="#000000" d="M976.7277,-166.5128C990.8764,-159.2175 1008.4643,-150.1489 1023.4105,-142.4423"/>
+<polygon fill="#000000" stroke="#000000" points="1025.0369,-145.5416 1032.3209,-137.8479 1021.8289,-139.32 1025.0369,-145.5416"/>
+</g>
+<!-- map(2)&#45;&gt;zipN -->
+<g id="edge12" class="edge">
+<title>map(2)&#45;&gt;zipN</title>
+<path fill="none" stroke="#000000" d="M989.5675,-126C998.0019,-126 1006.9322,-126 1015.4007,-126"/>
+<polygon fill="#000000" stroke="#000000" points="1015.4369,-129.5001 1025.4369,-126 1015.4369,-122.5001 1015.4369,-129.5001"/>
+</g>
+<!-- map(1)&#45;&gt;zipN -->
+<g id="edge14" class="edge">
+<title>map(1)&#45;&gt;zipN</title>
+<path fill="none" stroke="#000000" d="M976.7277,-85.4872C990.8764,-92.7825 1008.4643,-101.8511 1023.4105,-109.5577"/>
+<polygon fill="#000000" stroke="#000000" points="1021.8289,-112.68 1032.3209,-114.1521 1025.0369,-106.4584 1021.8289,-112.68"/>
+</g>
+<!-- map&#45;&gt;zipN -->
+<g id="edge15" class="edge">
+<title>map&#45;&gt;zipN</title>
+<path fill="none" stroke="#000000" d="M970.7919,-30.4389C977.0692,-34.7085 983.8228,-39.7447 989.4923,-45 1007.8234,-61.9918 1025.5076,-84.1923 1037.919,-101.0534"/>
+<polygon fill="#000000" stroke="#000000" points="1035.2076,-103.2767 1043.9043,-109.3281 1040.8794,-99.1742 1035.2076,-103.2767"/>
+</g>
+<!-- zipN&#45;&gt;queueSink -->
+<g id="edge7" class="edge">
+<title>zipN&#45;&gt;queueSink</title>
+<path fill="none" stroke="#000000" d="M1085.2815,-126C1093.1932,-126 1102.0295,-126 1110.9629,-126"/>
+<polygon fill="#000000" stroke="#000000" points="1111.046,-129.5001 1121.046,-126 1111.0459,-122.5001 1111.046,-129.5001"/>
+</g>
+<!-- concat -->
+<g id="node14" class="node">
+<title>concat</title>
+<ellipse fill="none" stroke="#000000" cx="460.3162" cy="-99" rx="36.4761" ry="18"/>
+<text text-anchor="middle" x="460.3162" y="-94.8" font-family="Times,serif" font-size="14.00" fill="#000000">concat</text>
+</g>
+<!-- concat&#45;&gt;expand -->
+<g id="edge8" class="edge">
+<title>concat&#45;&gt;expand</title>
+<path fill="none" stroke="#000000" d="M496.7145,-100.3097C504.8174,-100.6013 513.5402,-100.9152 522.0669,-101.222"/>
+<polygon fill="#000000" stroke="#000000" points="522.196,-104.7288 532.3154,-101.5908 522.4478,-97.7334 522.196,-104.7288"/>
+</g>
+<!-- detacher&#45;&gt;concat -->
+<g id="edge10" class="edge">
+<title>detacher&#45;&gt;concat</title>
+<path fill="none" stroke="#000000" d="M388.1858,-97.7561C396.5768,-97.9008 405.3885,-98.0528 413.8583,-98.1988"/>
+<polygon fill="#000000" stroke="#000000" points="413.9098,-101.7001 423.9687,-98.3732 414.0306,-94.7012 413.9098,-101.7001"/>
+</g>
+<!-- batch&#45;&gt;detacher -->
+<g id="edge13" class="edge">
+<title>batch&#45;&gt;detacher</title>
+<path fill="none" stroke="#000000" d="M257.7161,-58.221C271.6707,-64.468 289.3541,-72.3843 305.1001,-79.4334"/>
+<polygon fill="#000000" stroke="#000000" points="304.0459,-82.7961 314.6032,-83.6876 306.9061,-76.4071 304.0459,-82.7961"/>
+</g>
+</g>
+</svg>
