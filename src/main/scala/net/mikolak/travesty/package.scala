@@ -29,10 +29,10 @@ package object travesty {
     prepare(akkaGraph, direction).render(format.asJava).toFile(new File(fileName))
 
   def toString[T <: AkkaStream: TypeTag](akkaGraph: T,
-                                         format: TextFormat = Text,
+                                         format: TextFormat = TextFormat.Text,
                                          direction: FlowDirection = LeftToRight): String = {
     val graphviz = prepare(akkaGraph, direction)
-    if (format == Text) {
+    if (format == TextFormat.Text) {
       logger.warn(s"Text format support is limited and may not render everything correctly.")
     }
 
