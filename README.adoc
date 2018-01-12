@@ -29,7 +29,7 @@ resolvers += "indvd00m-github-repo" at "https://raw.githubusercontent.com/indvd0
 ----
 
 Where `AKKAVERSION` is the version of Akka (Streams) you're using in your project. Currently supported
-are versions `2.5.[3-7]`, and Scala `2.12`.
+are versions `2.5.[4-7]`, and Scala `2.12`.
 
 === Diagram generation
 
