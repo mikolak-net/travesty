@@ -1,4 +1,5 @@
 = Travesty
+:issueBaseUrl: https://github.com/mikolak-net/travesty/issues/
 
 image:https://travis-ci.org/mikolak-net/travesty.svg?branch=master["Build Status", link="https://travis-ci.org/mikolak-net/travesty"]
 
@@ -52,7 +53,6 @@ log.info(travesty.toString(graph)) //take care NOT to wrap the text
 [source,scala]
 ----
 import net.mikolak.travesty
-import net.mikolak.travesty.ImageFormat
 import gremlin.scala._ //traversal operations
 
 val graph = ??? //your graph here
@@ -99,12 +99,11 @@ Finally, the Graphviz graph is rendered into the required output format.
 
 === Untyped graphs (for now)
 
-This is a non-trivial problem to solve. For more details, see issue #1.
+This is a non-trivial problem to solve. For more details, see issue {issueBaseUrl}1[#1^].
 
 === No materialization annotations (for now)
 
-Completely doable, but not present in the current version. Track #2 to be notified when this
-gets added.
+Completely doable, but not present in the current version. Track {issueBaseUrl}2[#2^] to be notified when this gets added.
 
 === Represents the graph "blueprint", not running stream
 
