@@ -32,6 +32,8 @@ resolvers += "indvd00m-github-repo" at "https://raw.githubusercontent.com/indvd0
 Where `AKKAVERSION` is the version of Akka (Streams) you're using in your project. Currently supported
 are versions `2.5.[4-7]`, and Scala `2.12`.
 
+You can review all available versions on link:http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22net.mikolak%22%20AND%20a%3A%22travesty_2.12%22[Maven Central^].
+
 === Diagram generation
 
 [source,scala]
