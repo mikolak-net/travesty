@@ -36,12 +36,12 @@ are versions `2.5.[4-7]`, and Scala `2.12`.
 [source,scala]
 ----
 import net.mikolak.travesty
-import net.mikolak.travesty.ImageFormat
+import net.mikolak.travesty.OutputFormat
 
 val graph = ??? //your graph here
 
 //render as image to file, PNG is supported as well
-travesty.toFile(graph, travesty.SVG)("/tmp/stream.svg")
+travesty.toFile(graph, OutputFormat.SVG)("/tmp/stream.svg")
 
 //render as text "image"
 log.info(travesty.toString(graph)) //take care NOT to wrap the text
