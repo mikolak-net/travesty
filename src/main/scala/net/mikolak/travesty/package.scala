@@ -1,16 +1,10 @@
 package net.mikolak
 
 import java.awt.image.BufferedImage
-import java.io.File
 
-import akka.stream.{ClosedShape, Graph, StreamDeconstructorProxy}
+import akka.stream.{ClosedShape, Graph}
 import gremlin.scala._
-import guru.nidi.graphviz.engine.{Graphviz, GraphvizCmdLineEngine, GraphvizJdkEngine, GraphvizV8Engine}
-import net.mikolak.travesty.{AkkaStream, _}
 import net.mikolak.travesty.VizGraphProcessor.AkkaStage
-import net.mikolak.travesty.render.PackageNameSimplifier
-import org.apache.tinkerpop.gremlin.structure.T
-import org.log4s._
 
 import scala.reflect.runtime.universe._
 
