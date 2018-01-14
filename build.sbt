@@ -18,13 +18,14 @@ libraryDependencies ++= Seq(
   "org.scala-lang.modules"    %% "scala-java8-compat" % "0.8.0",
   "org.scala-lang"            % "scala-reflect"       % scalaVersion.value,
   "org.log4s"                 %% "log4s"              % "1.4.0"
-) ++ scalaCacheDeps ++ gremlinDeps ++ testDeps
+) ++ macwireDeps ++ scalaCacheDeps ++ gremlinDeps ++ testDeps
 
-lazy val testDeps = Seq("org.scalatest" %% "scalatest" % "3.0.4", "org.slf4j" % "slf4j-simple" % "1.7.5").map(_ % "test")
+lazy val macwireDeps = Seq("macros", "util").map("com.softwaremill.macwire" %% _ % "2.3.0")
 lazy val gremlinDeps = Seq("com.michaelpollmeier" %% "gremlin-scala" % s"$gremlinVersion.4",
                            "org.apache.tinkerpop" % "tinkergraph-gremlin" % gremlinVersion)
-
 lazy val scalaCacheDeps = Seq("core", "caffeine").map(n => "com.github.cb372" %% s"scalacache-$n" % "0.22.0")
+
+lazy val testDeps = Seq("org.scalatest" %% "scalatest" % "3.0.4", "org.slf4j" % "slf4j-simple" % "1.7.5").map(_ % "test")
 
 dependencyOverrides += "commons-io" % "commons-io" % "2.4"
 

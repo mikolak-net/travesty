@@ -207,7 +207,7 @@ class TravestyToGraphSpec extends FlatSpec with MustMatchers with MustVerb {
   }
 
   it must "preserve graph names" in {
-    import LowLevelApi.GraphWithProperties
+    import VizGraphProcessor.GraphWithProperties
     import org.scalatest.OptionValues._
     import properties.graph._
     tested(Source.empty[String].to(Sink.ignore)).props(GraphLabelKey).value must be("RunnableGraph[akka.NotUsed]")

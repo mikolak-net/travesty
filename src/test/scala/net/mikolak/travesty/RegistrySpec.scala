@@ -11,8 +11,10 @@ import scala.reflect.runtime.universe._
 
 class RegistrySpec extends FlatSpec with MustMatchers with MustVerb with TableDrivenPropertyChecks {
 
+  val registry = new Registry
+
   {
-    def tested[T <: Graph[_ <: Shape, _]: TypeTag](g: T) = Registry.deconstructShape(g)
+    def tested[T <: Graph[_ <: Shape, _]: TypeTag](g: T) = registry.deconstructShape(g)
 
     "deconstructShape" must "correctly define port types for basic shapes" in {
       tested(Source.empty[String]) must be(ShapeTypes(Nil, List(typeOf[String])))
@@ -47,20 +49,20 @@ class RegistrySpec extends FlatSpec with MustMatchers with MustVerb with TableDr
   }
 
   {
-    def when[T <: Graph[_ <: Shape, _]: TypeTag](g: T) = Registry.register(g)
+    def when[T <: Graph[_ <: Shape, _]: TypeTag](g: T) = registry.register(g)
 
     "register" must "remember shape immediately after saving" in {
       val s = Source.single("t")
 
       when(s)
 
-      Registry.lookup(s) must be a 'nonEmpty
+      registry.lookup(s) must be a 'nonEmpty
     }
 
     it must "not remember a non-saved shape" in {
       val s = Source.single("t")
 
-      Registry.lookup(s) must be an 'empty
+      registry.lookup(s) must be an 'empty
     }
 
     it must "remember a shape after a short time" in {
@@ -70,7 +72,7 @@ class RegistrySpec extends FlatSpec with MustMatchers with MustVerb with TableDr
 
       Thread.sleep(100)
 
-      Registry.lookup(s) must be a 'nonEmpty
+      registry.lookup(s) must be a 'nonEmpty
     }
 
   }

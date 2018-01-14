@@ -5,7 +5,7 @@ import akka.stream.{Graph, Shape}
 import scala.reflect.runtime.universe._
 import scalacache.Id
 
-object Registry {
+private[this] class Registry {
   import scalacache.Cache
   import scalacache.modes.sync._
   import scalacache.caffeine._

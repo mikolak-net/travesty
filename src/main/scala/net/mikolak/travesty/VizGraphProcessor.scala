@@ -6,9 +6,9 @@ import gremlin.scala._
 import guru.nidi.graphviz.attribute.{MutableAttributed, Rank}
 import net.mikolak.travesty.properties.graph.GraphLabelKey
 
-object LowLevelApi {
+class VizGraphProcessor {
 
-  type AkkaStage = akka.stream.Graph[_ <: Shape, _]
+  import VizGraphProcessor._
 
   def toVizGraph(in: ScalaGraph): VizGraph = {
     var out = vG.graph().directed()
@@ -64,6 +64,12 @@ object LowLevelApi {
 
     out
   }
+
+}
+
+object VizGraphProcessor {
+
+  type AkkaStage = akka.stream.Graph[_ <: Shape, _]
 
   private[travesty] implicit class GraphWithProperties(scalaGraph: ScalaGraph) {
     import scala.compat.java8.OptionConverters._

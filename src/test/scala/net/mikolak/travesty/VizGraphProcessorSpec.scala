@@ -11,9 +11,10 @@ import org.scalatest.{FlatSpec, MustMatchers}
 import scala.collection.JavaConverters._
 import scala.reflect.runtime.universe._
 
-class LowLevelApiSpec extends FlatSpec with MustMatchers with MustVerb {
+class VizGraphProcessorSpec extends FlatSpec with MustMatchers with MustVerb {
 
-  def tested[T <: AkkaStream: TypeTag](t: T): VizGraph = LowLevelApi.toVizGraph(travesty.toAbstractGraph(t))
+  val testInst                                         = new VizGraphProcessor
+  def tested[T <: AkkaStream: TypeTag](t: T): VizGraph = testInst.toVizGraph(travesty.toAbstractGraph(t))
 
   def calculateResult[T <: AkkaStream: TypeTag](t: T): MutableGraph = Parser.read(tested(t).toString)
 
@@ -82,7 +83,7 @@ class LowLevelApiSpec extends FlatSpec with MustMatchers with MustVerb {
   }
 
   it must "preserve names as graph labels" in {
-    import LowLevelApi.AttrScala
+    import VizGraphProcessor.AttrScala
     val input = Source.empty[String].to(Sink.ignore)
 
     val output = calculateResult(input)

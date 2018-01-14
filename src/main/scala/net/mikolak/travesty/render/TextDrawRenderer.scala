@@ -3,13 +3,12 @@ package net.mikolak.travesty.render
 import com.indvd00m.ascii.render.{Render, Point => DrawPoint, elements => draw}
 import guru.nidi.graphviz.attribute.MutableAttributed
 import guru.nidi.graphviz.engine.{Renderer => GraphVizRenderer}
-import guru.nidi.graphviz.model.{MutableGraph, MutableNode}
+import guru.nidi.graphviz.model.MutableGraph
 import guru.nidi.graphviz.parse.Parser
 
 import scala.collection.JavaConverters._
 import scala.language.implicitConversions
-import net.mikolak.travesty.LowLevelApi.AttrScala
-import net.mikolak.travesty.properties.node
+import net.mikolak.travesty.VizGraphProcessor.AttrScala
 
 /**
   * Warning - quickly written, temporary prototype. Proceed with reading at your own peril.

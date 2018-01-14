@@ -13,7 +13,7 @@ import org.log4s._
   * INTERNAL API
   * Package placement necessary to access package private Traversal.
   */
-object StreamDeconstructorProxy {
+class StreamDeconstructorProxy {
 
   private val logger = getLogger
 
