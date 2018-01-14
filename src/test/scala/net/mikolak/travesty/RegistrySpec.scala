@@ -45,6 +45,35 @@ class RegistrySpec extends FlatSpec with MustMatchers with MustVerb with TableDr
       tested(Flow[A].mapAsync(3)(a => Future.successful(a.toB)).async) must be(ShapeTypes(List(typeOf[A]), List(typeOf[B])))
     }
   }
+
+  {
+    def when[T <: Graph[_ <: Shape, _]: TypeTag](g: T) = Registry.register(g)
+
+    "register" must "remember shape immediately after saving" in {
+      val s = Source.single("t")
+
+      when(s)
+
+      Registry.lookup(s) must be a 'nonEmpty
+    }
+
+    it must "not remember a non-saved shape" in {
+      val s = Source.single("t")
+
+      Registry.lookup(s) must be an 'empty
+    }
+
+    it must "remember a shape after a short time" in {
+      val s = Flow[B].map(identity)
+
+      when(s)
+
+      Thread.sleep(100)
+
+      Registry.lookup(s) must be a 'nonEmpty
+    }
+
+  }
 }
 
 trait A {

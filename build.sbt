@@ -16,6 +16,8 @@ libraryDependencies ++= Seq(
   "org.apache.tinkerpop" % "tinkergraph-gremlin" % "3.3.0",
   //TODO: "com.github.mdr" %% "ascii-graphs" % "0.0.3", pending 2.12
   "com.indvd00m.ascii.render" % "ascii-render"        % "1.2.1", //used instead of above^
+  "com.github.cb372" %% "scalacache-core" % "0.22.0",
+  "com.github.cb372" %% "scalacache-caffeine" % "0.22.0",
   "org.scala-lang.modules"    %% "scala-java8-compat" % "0.8.0",
   "org.scala-lang"            % "scala-reflect"      % scalaVersion.value,
   "org.log4s"                 %% "log4s"              % "1.4.0"

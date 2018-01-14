@@ -3,8 +3,25 @@ package net.mikolak.travesty
 import akka.stream.{Graph, Shape}
 
 import scala.reflect.runtime.universe._
+import scalacache.Id
 
 object Registry {
+  import scalacache.Cache
+  import scalacache.modes.sync._
+  import scalacache.caffeine._
+  import scala.concurrent.duration._
+  import language.postfixOps
+
+  private val cache: Cache[ShapeTypes] = CaffeineCache[ShapeTypes]
+
+  def register[T <: Graph[_ <: Shape, _]: TypeTag](g: T): T = {
+    val shapeTypes = deconstructShape(g)
+    cache.put(g)(shapeTypes, ttl = Some(5 minutes)) //TODO: move to config
+    g
+  }
+
+  def lookup(g: Graph[_ <: Shape, _]): Id[Option[ShapeTypes]] = cache.get(g)
+
   private[travesty] def deconstructShape[T <: Graph[_ <: Shape, _]: TypeTag](g: T): ShapeTypes = {
     val tpe             = typeOf[T]
     val graphType       = tpe.baseType(typeOf[Graph[_, _]].typeSymbol)
