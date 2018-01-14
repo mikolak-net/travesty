@@ -11,7 +11,7 @@ import scala.reflect.runtime.universe._
 
 class RegistrySpec extends FlatSpec with MustMatchers with MustVerb with TableDrivenPropertyChecks {
 
-  val registry = new Registry
+  val registry = Wiring.registry
 
   {
     def tested[T <: Graph[_ <: Shape, _]: TypeTag](g: T) = registry.deconstructShape(g)

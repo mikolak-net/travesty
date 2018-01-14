@@ -17,7 +17,8 @@ libraryDependencies ++= Seq(
   "com.indvd00m.ascii.render" % "ascii-render"        % "1.2.1", //used instead of above^
   "org.scala-lang.modules"    %% "scala-java8-compat" % "0.8.0",
   "org.scala-lang"            % "scala-reflect"       % scalaVersion.value,
-  "org.log4s"                 %% "log4s"              % "1.4.0"
+  "org.log4s"                 %% "log4s"              % "1.4.0",
+  "com.iheart"                %% "ficus"              % "1.4.3"
 ) ++ macwireDeps ++ scalaCacheDeps ++ gremlinDeps ++ testDeps
 
 lazy val macwireDeps = Seq("macros", "util").map("com.softwaremill.macwire" %% _ % "2.3.0")

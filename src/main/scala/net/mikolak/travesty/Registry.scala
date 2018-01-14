@@ -5,18 +5,16 @@ import akka.stream.{Graph, Shape}
 import scala.reflect.runtime.universe._
 import scalacache.Id
 
-private[this] class Registry {
+private[travesty] class Registry(config: TravestyConfig) {
   import scalacache.Cache
   import scalacache.modes.sync._
   import scalacache.caffeine._
-  import scala.concurrent.duration._
-  import language.postfixOps
 
   private val cache: Cache[ShapeTypes] = CaffeineCache[ShapeTypes]
 
   def register[T <: Graph[_ <: Shape, _]: TypeTag](g: T): T = {
     val shapeTypes = deconstructShape(g)
-    cache.put(g)(shapeTypes, ttl = Some(5 minutes)) //TODO: move to config
+    cache.put(g)(shapeTypes, ttl = Some(config.shapeCacheTtl))
     g
   }
 
