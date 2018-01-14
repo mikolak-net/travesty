@@ -1,6 +1,7 @@
 package net.mikolak.travesty
 
 import akka.stream.{Graph, Shape}
+import net.mikolak.travesty.setup.TravestyConfig
 
 import scala.reflect.runtime.universe._
 import scalacache.Id

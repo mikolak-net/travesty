@@ -2,6 +2,7 @@ package net.mikolak.travesty
 
 import akka.stream.{Graph, Shape, scaladsl}
 import akka.stream.scaladsl.{BidiFlow, Broadcast, Flow, Merge, MergePreferred, Sink, Source, Unzip, Zip, ZipN}
+import net.mikolak.travesty.setup.Wiring
 import org.scalatest.prop.TableDrivenPropertyChecks
 import org.scalatest.{FlatSpec, MustMatchers}
 import org.scalatest.words.MustVerb

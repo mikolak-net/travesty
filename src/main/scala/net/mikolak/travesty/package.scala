@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage
 import akka.stream.{ClosedShape, Graph}
 import gremlin.scala._
 import net.mikolak.travesty.VizGraphProcessor.AkkaStage
+import net.mikolak.travesty.setup.Wiring
 
 import scala.reflect.runtime.universe._
 
