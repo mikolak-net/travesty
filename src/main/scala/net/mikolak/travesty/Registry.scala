@@ -1,0 +1,37 @@
+package net.mikolak.travesty
+
+import akka.stream.{Graph, Shape}
+
+import scala.reflect.runtime.universe._
+
+object Registry {
+  private[travesty] def deconstructShape[T <: Graph[_ <: Shape, _]: TypeTag](g: T): ShapeTypes = {
+    val tpe             = typeOf[T]
+    val graphType       = tpe.baseType(typeOf[Graph[_, _]].typeSymbol)
+    val bottomShapeType = graphType.typeArgs.head
+
+    val shapeType = bottomShapeType.baseClasses.map(bottomShapeType.baseType).head
+
+    val inletSize  = g.shape.inlets.size
+    val outletSize = g.shape.outlets.size
+    val portTypes  = shapeType.typeArgs
+
+    val typeLists = if (inletSize + outletSize > portTypes.size) {
+      if (outletSize > inletSize) {
+        val (ins, outsPart) = portTypes.splitAt(inletSize)
+        (ins, outsPart ++ List.fill(outletSize - outsPart.size)(outsPart.lastOption.getOrElse(ins.last)))
+      } else {
+        val (insPart, outs) = portTypes.splitAt(portTypes.length - outletSize)
+        (insPart ++ List.fill(inletSize - insPart.size)(insPart.lastOption.getOrElse(outs.last)), outs)
+      }
+
+    } else {
+      portTypes.splitAt(inletSize)
+    }
+
+    ShapeTypes.tupled(typeLists)
+  }
+
+}
+
+case class ShapeTypes(inlets: List[Type], outlets: List[Type])
