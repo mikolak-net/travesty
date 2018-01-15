@@ -2,17 +2,20 @@ package net.mikolak.travesty
 
 import akka.stream.{Graph, Shape, scaladsl}
 import akka.stream.scaladsl.{BidiFlow, Broadcast, Flow, Merge, MergePreferred, Sink, Source, Unzip, Zip, ZipN}
-import net.mikolak.travesty.setup.Wiring
+import net.mikolak.travesty.setup.{CacheConfig, Wiring}
 import org.scalatest.prop.TableDrivenPropertyChecks
 import org.scalatest.{FlatSpec, MustMatchers}
 import org.scalatest.words.MustVerb
 
 import scala.concurrent.Future
+import scala.concurrent.duration._
+import language.postfixOps
 import scala.reflect.runtime.universe._
 
 class RegistrySpec extends FlatSpec with MustMatchers with MustVerb with TableDrivenPropertyChecks {
 
-  val registry = Wiring.registry
+  val cacheTime = 100 millis
+  val registry  = new Registry(CacheConfig(cacheTime))
 
   {
     def tested[T <: Graph[_ <: Shape, _]: TypeTag](g: T) = registry.deconstructShape(g)
@@ -71,9 +74,19 @@ class RegistrySpec extends FlatSpec with MustMatchers with MustVerb with TableDr
 
       when(s)
 
-      Thread.sleep(100)
+      Thread.sleep((cacheTime / 2).toMillis)
 
       registry.lookup(s) must be a 'nonEmpty
+    }
+
+    it must "forget a shape after cache TTL has been exceeded" in {
+      val s = Flow[A].map(identity)
+
+      when(s)
+
+      Thread.sleep((cacheTime * 2).toMillis)
+
+      registry.lookup(s) must be an 'empty
     }
 
   }

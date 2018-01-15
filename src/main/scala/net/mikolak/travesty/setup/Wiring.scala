@@ -11,8 +11,10 @@ import net.ceedubs.ficus.readers.namemappers.implicits.hyphenCase
 
 private[travesty] object Wiring {
 
-  lazy val baseConfig               = ConfigFactory.load()
-  lazy val config                   = baseConfig.as[TravestyConfig]("travesty")
+  lazy val baseConfig = ConfigFactory.load()
+  lazy val config     = baseConfig.as[TravestyConfig]("travesty")
+  import config.cache
+
   lazy val registry                 = wire[Registry]
   lazy val streamDeconstructorProxy = wire[StreamDeconstructorProxy]
   lazy val packageNameSimplifier    = wire[PackageNameSimplifier]

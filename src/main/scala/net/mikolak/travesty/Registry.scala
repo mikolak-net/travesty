@@ -1,12 +1,12 @@
 package net.mikolak.travesty
 
 import akka.stream.{Graph, Shape}
-import net.mikolak.travesty.setup.TravestyConfig
+import net.mikolak.travesty.setup.CacheConfig
 
 import scala.reflect.runtime.universe._
 import scalacache.Id
 
-private[travesty] class Registry(config: TravestyConfig) {
+private[travesty] class Registry(config: CacheConfig) {
   import scalacache.Cache
   import scalacache.modes.sync._
   import scalacache.caffeine._
