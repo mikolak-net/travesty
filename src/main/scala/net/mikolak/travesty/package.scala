@@ -31,6 +31,8 @@ package object travesty {
 
   val LowLevelApi: VizGraphProcessor = Wiring.vizGraphProcessor
 
+  val registry: Registry = Wiring.registry
+
   object properties {
     object graph {
       val GraphLabelKey: String = "stream_label"

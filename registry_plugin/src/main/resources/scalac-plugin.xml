@@ -1,0 +1,4 @@
+<plugin>
+    <name>registerakka</name>
+    <classname>net.mikolak.travesty.register.RegisterAllStagesPlugin</classname>
+</plugin>
