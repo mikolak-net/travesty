@@ -17,6 +17,15 @@ image::doc/example_graph.svg[]
 
  - generating https://tinkerpop.apache.org/[Tinkerpop 3 / Gremlin^] graph data structures - usable for e.g. writing tests that check stage sequencing in dynamically constructed Streams.
 
+== What's new?
+
+=== 0.8
+
+- Added "manual support" for typed diagrams/graphs (see link:#typed-diagrams[Typed diagrams]),
+- made Graphviz engine selection configurable for better speed/compatibility ({issueBaseUrl}#3[#3^]),
+- fixed {issueBaseUrl}#4[#4^],
+- extended Akka version support up to 2.5.9 .
+
 == How to use it
 
 === Include in your project
