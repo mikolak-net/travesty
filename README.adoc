@@ -51,12 +51,27 @@ travesty.toFile(graph, OutputFormat.SVG)("/tmp/stream.svg")
 log.info(travesty.toString(graph)) //take care NOT to wrap the text
 ----
 
-==== Adding type labels
+=== Typed diagrams
 
+Currently, it works like this:
 
+[source,scala]
+----
+import net.mikolak.travesty
+import net.mikolak.travesty.OutputFormat
+import registry._ //adds special .↓ and .register methods to stages
 
+val graph = Source.single("1").↓.via(Flow[String].map(_.toInt).↓).to(Sink.seq)
 
-This is a non-trivial problem to solve. For more details, see issue {issueBaseUrl}1[#1^].
+//render as image to file, PNG is supported as well
+travesty.toFile(graph, OutputFormat.SVG)("/tmp/stream.svg")
+----
+
+image::doc/example_typed_graph.svg[]
+
+`register`, aliased to `↓`, is a special pass-through extension method that allows Travesty to recognize the types going through your stream. Append `.register`/`.↓` to every stage you need type labels for.
+
+Automatic support is coming, but unfortunately is a non-trivial problem to solve. For more details, see issue {issueBaseUrl}1[#1^].
 
 === Graph testing
 
