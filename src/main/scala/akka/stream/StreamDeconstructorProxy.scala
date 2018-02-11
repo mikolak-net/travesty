@@ -41,7 +41,7 @@ class StreamDeconstructorProxy(typeRegistry: Registry) {
       case PopAttributes              =>
         //assign name to the node and pop the stack
         attributeStack.head.attributeList
-          .collect {
+          .collectFirst {
             case Name(name) => name
           }
           .foreach(currentNode.setProperty(properties.node.StageName, _))
