@@ -8,7 +8,7 @@ image:https://travis-ci.org/mikolak-net/travesty.svg?branch=master["Build Status
 
 Travesty is a utility library for Akka Streams. It has two uses:
 
- - generating (untyped) structural diagrams of your Akka Streams, both as graphics and text (the latter
+ - generating structural diagrams of your Akka Streams, both as graphics and text (the latter
  useful for logging). Example:
 
 image::doc/example_graph.svg[]
@@ -50,6 +50,13 @@ travesty.toFile(graph, OutputFormat.SVG)("/tmp/stream.svg")
 //render as text "image"
 log.info(travesty.toString(graph)) //take care NOT to wrap the text
 ----
+
+==== Adding type labels
+
+
+
+
+This is a non-trivial problem to solve. For more details, see issue {issueBaseUrl}1[#1^].
 
 === Graph testing
 
@@ -99,10 +106,6 @@ The Gremlin graph is converted into a https://graphviz.gitlab.io/[Graphviz^] gra
 Finally, the Graphviz graph is rendered into the required output format.
 
 == Caveats
-
-=== Untyped graphs (for now)
-
-This is a non-trivial problem to solve. For more details, see issue {issueBaseUrl}1[#1^].
 
 === No materialization annotations (for now)
 

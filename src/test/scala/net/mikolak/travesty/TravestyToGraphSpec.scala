@@ -216,4 +216,39 @@ class TravestyToGraphSpec extends FlatSpec with MustMatchers with MustVerb {
       "RunnableGraph[Future[immutable.Seq[String]]]")
   }
 
+  import properties.edge._
+
+  it must "store registered types in labels with full type information" in {
+    import registry._
+
+    val input = Source.single("1").↓.via(Flow[String].map(_.toInt).↓).↓.to(Sink.seq.↓)
+
+    val result = tested(input)
+
+    result.E().toList().map(_.property(Type).value()) must contain theSameElementsAs List(typeOf[java.lang.String], typeOf[Int])
+      .map(Some.apply)
+  }
+
+  it must "store registered types in labels with type information in the outgoing node" in {
+    import registry._
+
+    val input = Source.single("1").↓.via(Flow[String].map(_.toInt).↓).to(Sink.seq)
+
+    val result = tested(input)
+
+    result.E().toList().map(_.property(Type).value()) must contain theSameElementsAs List(typeOf[java.lang.String], typeOf[Int])
+      .map(Some.apply)
+  }
+
+  it must "store registered types in labels with type information in the incoming node" in {
+    import registry._
+
+    val input = Source.single("1").via(Flow[String].map(_.toInt).↓).to(Sink.seq)
+
+    val result = tested(input)
+
+    result.E().toList().map(_.property(Type).value()) must contain theSameElementsAs List(typeOf[java.lang.String], typeOf[Int])
+      .map(Some.apply)
+  }
+
 }

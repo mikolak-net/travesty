@@ -5,6 +5,7 @@ import akka.stream.scaladsl.{Broadcast, Flow, GraphDSL, RunnableGraph, Sink, Sou
 import guru.nidi.graphviz.model.{MutableGraph, Graph => VizGraph}
 import guru.nidi.graphviz.parse.Parser
 import net.mikolak.travesty
+import net.mikolak.travesty.render.TypeNameSimplifier
 import org.scalatest.words.MustVerb
 import org.scalatest.{FlatSpec, MustMatchers}
 
@@ -13,7 +14,7 @@ import scala.reflect.runtime.universe._
 
 class VizGraphProcessorSpec extends FlatSpec with MustMatchers with MustVerb {
 
-  val testInst                                         = new VizGraphProcessor
+  val testInst                                         = new VizGraphProcessor(new TypeNameSimplifier)
   def tested[T <: AkkaStream: TypeTag](t: T): VizGraph = testInst.toVizGraph(travesty.toAbstractGraph(t))
 
   def calculateResult[T <: AkkaStream: TypeTag](t: T): MutableGraph = Parser.read(tested(t).toString)
@@ -79,17 +80,25 @@ class VizGraphProcessorSpec extends FlatSpec with MustMatchers with MustVerb {
     subGraphs must have size 3
     val subGraphRanks = subGraphs.flatMap(_.graphAttrs().iterator().asScala.filter(_.getKey == "rank").toList)
     subGraphRanks.map(_.getValue) must contain theSameElementsAs List("source", "sink", "sink")
-
   }
 
-  it must "preserve names as graph labels" in {
+  it must "preserve materialized names within a graph label" in {
     import VizGraphProcessor.AttrScala
     val input = Source.empty[String].to(Sink.ignore)
 
     val output = calculateResult(input)
 
     output.generalAttrs().toMap must contain(("label", "RunnableGraph[akka.NotUsed]"))
+  }
 
+  it must "preserve edge types as graph labels" in {
+    import registry._
+
+    val input = Source.single("1").↓.via(Flow[String].map(_.toInt).↓).↓.to(Sink.seq.↓)
+
+    val output = calculateResult(input)
+    output.linkList().map(_.attrs().iterator().next().getValue) must contain theSameElementsAs List(typeOf[String], typeOf[Int])
+      .map(_.toString)
   }
 
   implicit class MutGraphExtras(g: MutableGraph) {

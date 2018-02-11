@@ -2,7 +2,7 @@ package net.mikolak
 
 import java.awt.image.BufferedImage
 
-import akka.stream.{ClosedShape, Graph}
+import akka.stream.{ClosedShape, Graph, Shape}
 import gremlin.scala._
 import net.mikolak.travesty.VizGraphProcessor.AkkaStage
 import net.mikolak.travesty.setup.Wiring
@@ -43,9 +43,17 @@ package object travesty {
     }
 
     object edge {
-      val Label = "to"
+      val Label                   = "to"
+      val Type: Key[Option[Type]] = Key("elementType")
     }
 
+  }
+
+  object registry {
+    implicit class RegistryShape[T <: Graph[_ <: Shape, _]: TypeTag](g: T) {
+      def register: T = Wiring.registry.register(g)
+      def ↓ : T       = register
+    }
   }
 
 }

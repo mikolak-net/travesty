@@ -5,8 +5,9 @@ import guru.nidi.graphviz.model.{Label, Factory => vG, Graph => VizGraph, Node =
 import gremlin.scala._
 import guru.nidi.graphviz.attribute.{MutableAttributed, Rank}
 import net.mikolak.travesty.properties.graph.GraphLabelKey
+import net.mikolak.travesty.render.TypeNameSimplifier
 
-class VizGraphProcessor {
+class VizGraphProcessor(typeNameSimplifier: TypeNameSimplifier) {
 
   import VizGraphProcessor._
 
@@ -45,16 +46,19 @@ class VizGraphProcessor {
       out = out.`with`(possiblyRankedNode)
     }
 
-    //second pass is necessary since otherwise graphviz-java would immediately linked nodes
+    //second pass is necessary since otherwise graphviz-java would immediately link nodes
     // (i.e. ones directly after sources/before sinks) within the rank subgraphs, screwing up
-    // the painting order. The "duplication" prevents this from occuring.
+    // the painting order. The "duplication" prevents this from occurring.
+    import vG.to
     for {
       v <- in.V().l()
     } {
       var node = nodeFor(v)
 
       for { e <- v.outE().l() } {
-        node = node.link(nodeFor(e.inVertex()))
+        val edgeLabel =
+          Label.of(e.property(properties.edge.Type).value().map(_.toString).map(typeNameSimplifier.apply).getOrElse(""))
+        node = node.link(to(nodeFor(e.inVertex())).`with`(edgeLabel))
       }
       out = out.`with`(node)
     }

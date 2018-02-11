@@ -5,7 +5,7 @@ import com.softwaremill.macwire._
 import com.typesafe.config.ConfigFactory
 import net.ceedubs.ficus.Ficus._
 import net.ceedubs.ficus.readers.ArbitraryTypeReader._
-import net.mikolak.travesty.render.PackageNameSimplifier
+import net.mikolak.travesty.render.TypeNameSimplifier
 import net.mikolak.travesty.{Api, Registry, VizGraphProcessor}
 import net.ceedubs.ficus.readers.namemappers.implicits.hyphenCase
 
@@ -17,7 +17,7 @@ private[travesty] object Wiring {
 
   lazy val registry                 = wire[Registry]
   lazy val streamDeconstructorProxy = wire[StreamDeconstructorProxy]
-  lazy val packageNameSimplifier    = wire[PackageNameSimplifier]
+  lazy val packageNameSimplifier    = wire[TypeNameSimplifier]
   lazy val vizGraphProcessor        = wire[VizGraphProcessor]
   lazy val api                      = wire[Api]
 

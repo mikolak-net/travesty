@@ -6,7 +6,7 @@ import net.mikolak.travesty.setup.CacheConfig
 import scala.reflect.runtime.universe._
 import scalacache.Id
 
-private[travesty] class Registry(config: CacheConfig) {
+class Registry(config: CacheConfig) {
   import scalacache.Cache
   import scalacache.modes.sync._
   import scalacache.caffeine._
@@ -15,11 +15,11 @@ private[travesty] class Registry(config: CacheConfig) {
 
   def register[T <: Graph[_ <: Shape, _]: TypeTag](g: T): T = {
     val shapeTypes = deconstructShape(g)
-    cache.put(g)(shapeTypes, ttl = Some(config.shapeCacheTtl))
+    cache.put(g.shape)(shapeTypes, ttl = Some(config.shapeCacheTtl))
     g
   }
 
-  def lookup(g: Graph[_ <: Shape, _]): Id[Option[ShapeTypes]] = cache.get(g)
+  def lookup(g: Graph[_ <: Shape, _]): Id[Option[ShapeTypes]] = cache.get(g.shape)
 
   private[travesty] def deconstructShape[T <: Graph[_ <: Shape, _]: TypeTag](g: T): ShapeTypes = {
     val tpe             = typeOf[T]

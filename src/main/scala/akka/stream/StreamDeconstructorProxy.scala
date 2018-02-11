@@ -5,7 +5,7 @@ import akka.stream.impl.StreamLayout.AtomicModule
 import akka.stream.impl._
 import akka.stream.impl.fusing.GraphStageModule
 import gremlin.scala._
-import net.mikolak.travesty.{AkkaStream, properties}
+import net.mikolak.travesty.{AkkaStream, Registry, properties}
 import org.apache.tinkerpop.gremlin.tinkergraph.structure.TinkerGraph
 import org.log4s._
 
@@ -13,7 +13,7 @@ import org.log4s._
   * INTERNAL API
   * Package placement necessary to access package private Traversal.
   */
-class StreamDeconstructorProxy {
+class StreamDeconstructorProxy(typeRegistry: Registry) {
 
   private val logger = getLogger
 
@@ -34,7 +34,7 @@ class StreamDeconstructorProxy {
     var attributeStack           = List.empty[Attributes]
     var currentNode: ScalaVertex = null
 
-    var edgeConstructions = List.empty[(ScalaVertex, Int)]
+    var edgeConstructions = List.empty[(ScalaVertex, Int, Int)]
 
     foldTraversal(traversal).foreach {
       case PushAttributes(attributes) => attributeStack = attributes :: attributeStack
@@ -56,14 +56,27 @@ class StreamDeconstructorProxy {
         (inOffset until (inOffset + module.shape.inlets.length)).foreach(i => inputMap += (i -> currentNode))
 
         //map outputs to existing inputs
-        edgeConstructions ++= module.shape.outlets.map(o => (currentNode, inOffset + slots(o.id)))
+        edgeConstructions ++= module.shape.outlets.zipWithIndex.map { case (o, i) => (currentNode, i, inOffset + slots(o.id)) }
       case Pop | PushNotUsed           => //supported, no-op
       case EnterIsland(_) | ExitIsland => //supported, no-op (FIXME: process)
       case Compose(_, _)               => //suported, no-op currently (FIXME: possibly include mat virtual nodes)
     }
 
     edgeConstructions.foreach {
-      case (outNode, inNodeIndex) => outNode --- properties.edge.Label --> inputMap(inNodeIndex).asJava()
+      case (outNode, outIndex, inNodeIndex) =>
+        val inNode = inputMap(inNodeIndex)
+
+        val List(inTypes, outTypes) = List(inNode, outNode)
+          .map(_.property(properties.node.StageImplementation).value())
+          .map(typeRegistry.lookup)
+
+        //inlets are ordered sequentially in the "master" map, so all we need to get the target inlet's index
+        // is to find the number of keys mapping to the same node
+        val inletIndex = inputMap.count { case (index, node) => node == inNode && index < inNodeIndex }
+
+        val typeLabel = outTypes.map(_.outlets(outIndex)).orElse(inTypes.map(_.inlets(inletIndex)))
+
+        outNode --- (properties.edge.Label, properties.edge.Type -> typeLabel) --> inNode.asJava()
     }
     graph
   }

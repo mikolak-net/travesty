@@ -47,11 +47,14 @@ private[travesty] object TextDrawRenderer {
       //edge shape
       createPolygon(rawPoints).foreach(canvas.element)
 
-      //edge labels
+      //edge arrowheads
       for (edgeType <- List("h", "t")) {
         val edgeRawPoints = edge.attrs().skipToInstruction(s"${edgeType}draw", "P").drop(1)
         createPolygon(edgeRawPoints).foreach(canvas.element)
       }
+
+      //edge label
+      createLabel(edge.attrs()).foreach(canvas.element)
     }
 
     for {
@@ -63,22 +66,24 @@ private[travesty] object TextDrawRenderer {
       }
 
       { //node label
-        canvas.element(createLabel(node.attrs()))
+        createLabel(node.attrs()).foreach(canvas.element)
       }
     }
 
     //draw graph label
-    canvas.element(createLabel(drawableVizGraph.graphAttrs()))
+    createLabel(drawableVizGraph.graphAttrs()).foreach(canvas.element)
 
     textRenderer.render(canvas.build()).getText
   }
 
-  private def createLabel(attrs: MutableAttributed[_]) = {
-    val textConfig                    = attrs.skipToInstruction("ldraw", "T")
-    val Array(x, yBaseline, j, width) = textConfig.take(4).map(_.toCoord)
-    val text                          = textConfig.last.tail
+  private def createLabel(attrs: MutableAttributed[_]): Option[draw.Label] = {
+    val textConfig = attrs.skipToInstruction("ldraw", "T")
+    if (textConfig.nonEmpty) {
+      val Array(x, yBaseline, j, width) = textConfig.take(4).map(_.toCoord)
+      val text                          = textConfig.last.tail
 
-    new draw.Label(text, x - (text.length / 2), yBaseline + 1)
+      Some(new draw.Label(text, x - (text.length / 2), yBaseline + 1))
+    } else None
   }
 
   private def createPolygon(rawCoords: Array[String]): Iterator[draw.Line] = {

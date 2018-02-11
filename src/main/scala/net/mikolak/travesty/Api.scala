@@ -8,12 +8,12 @@ import gremlin.scala._
 import guru.nidi.graphviz.engine.{Graphviz, GraphvizCmdLineEngine, GraphvizJdkEngine, GraphvizV8Engine}
 import net.mikolak.travesty._
 import org.log4s._
-import render.PackageNameSimplifier
+import render.TypeNameSimplifier
 
 import scala.reflect.runtime.universe._
 
 private[travesty] class Api(deconstruct: StreamDeconstructorProxy,
-                            packageNameSimplifier: PackageNameSimplifier,
+                            typeNameSimplifier: TypeNameSimplifier,
                             lowLevelApi: VizGraphProcessor) {
 
   private val logger = getLogger
@@ -36,7 +36,7 @@ private[travesty] class Api(deconstruct: StreamDeconstructorProxy,
 
   def toAbstractGraph[T <: AkkaStream: TypeTag](akkaGraph: T): ScalaGraph = {
     val traversed     = deconstruct(akkaGraph)
-    val graphTypeName = packageNameSimplifier(typeOf[T].toString)
+    val graphTypeName = typeNameSimplifier(typeOf[T].toString)
     traversed.variables().set(properties.graph.GraphLabelKey, graphTypeName)
 
     traversed
