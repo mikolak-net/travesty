@@ -22,8 +22,8 @@ image::doc/example_graph.svg[]
 === 0.8
 
 - Added "manual support" for typed diagrams/graphs (see link:#typed-diagrams[Typed diagrams]),
-- made Graphviz engine selection configurable for better speed/compatibility ({issueBaseUrl}#3[#3^]),
-- fixed {issueBaseUrl}#4[#4^],
+- made Graphviz engine selection configurable for better speed/compatibility ({issueBaseUrl}3[#3^]),
+- fixed {issueBaseUrl}4[#4^],
 - extended Akka version support up to 2.5.9 .
 
 == How to use it
