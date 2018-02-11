@@ -1,5 +1,6 @@
 = Travesty
 :issueBaseUrl: https://github.com/mikolak-net/travesty/issues/
+:toc:
 
 image:https://travis-ci.org/mikolak-net/travesty.svg?branch=master["Build Status", link="https://travis-ci.org/mikolak-net/travesty"]
 
@@ -16,7 +17,7 @@ image::doc/example_graph.svg[]
 
 == How to use it
 
-=== Install
+=== Include in your project
 
 Add to your `build.sbt`
 
