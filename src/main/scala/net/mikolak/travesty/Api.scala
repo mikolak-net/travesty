@@ -3,18 +3,20 @@ package net.mikolak.travesty
 import java.awt.image.BufferedImage
 import java.io.File
 
-import akka.stream.{ClosedShape, Graph, StreamDeconstructorProxy}
+import akka.stream.StreamDeconstructorProxy
 import gremlin.scala._
-import guru.nidi.graphviz.engine.{Graphviz, GraphvizCmdLineEngine, GraphvizJdkEngine, GraphvizV8Engine}
-import net.mikolak.travesty._
+import guru.nidi.graphviz.engine.Graphviz
+import net.mikolak.travesty.render.TypeNameSimplifier
+import net.mikolak.travesty.setup.GraphvizEngineType
+
 import org.log4s._
-import render.TypeNameSimplifier
 
 import scala.reflect.runtime.universe._
 
 private[travesty] class Api(deconstruct: StreamDeconstructorProxy,
                             typeNameSimplifier: TypeNameSimplifier,
-                            lowLevelApi: VizGraphProcessor) {
+                            lowLevelApi: VizGraphProcessor,
+                            engines: List[GraphvizEngineType.Value]) {
 
   private val logger = getLogger
 
@@ -49,6 +51,8 @@ private[travesty] class Api(deconstruct: StreamDeconstructorProxy,
   }
 
   { //initialize GraphViz engine
-    Graphviz.useEngine(new GraphvizJdkEngine, new GraphvizV8Engine, new GraphvizCmdLineEngine())
+    import GraphvizEngineType._
+    val first :: rest = engines.map(_.instantiate())
+    Graphviz.useEngine(first, rest: _*)
   }
 }
