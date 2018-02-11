@@ -141,7 +141,7 @@ The graph/diagram generated from the `Traversal` object does not correspond 1:1 
 by `travesty`, for maximum portability, is also the slowest one. While generating the graph is always fast,
 rendering the diagram may take up to ~10 seconds.
 
-If you would like to try switching to a faster engine, see {fileBrowseBaseUrl}src/main/resources/reference.conf[`reference.conf`] for more info.
+*If you would like to try switching to a faster engine, see {fileBrowseBaseUrl}src/main/resources/reference.conf[`reference.conf`] for more info.*
 
 === Tight coupling with Akka Stream's internals
 
