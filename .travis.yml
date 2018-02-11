@@ -2,6 +2,8 @@ language: scala
 scala:
   - 2.12.4
 env:
+  - akkaVersion=2.5.9
+  - akkaVersion=2.5.8
   - akkaVersion=2.5.7
   - akkaVersion=2.5.6
   - akkaVersion=2.5.5
