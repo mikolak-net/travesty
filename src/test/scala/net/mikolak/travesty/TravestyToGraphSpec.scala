@@ -169,6 +169,20 @@ class TravestyToGraphSpec extends FlatSpec with MustMatchers with MustVerb {
     result.V().has(StageName, "singleSource").out().out().out().cyclicPath() must be an 'exists
   }
 
+  it must "decompose a graph with Transform" in {
+    val input = Source.single("t").to(Sink.seq).mapMaterializedValue(_ => "k")
+
+    val result = tested(input)
+
+    val vertices = result.V().toList()
+
+    vertices.map(_.property(ImplementationName).value()) must contain allOf ("SingleSource", "SeqStage")
+    vertices.map(_.property(StageName).value()) must contain allOf ("singleSource", "seqSink")
+    vertices must have size 2
+
+    result.E().simplePath().toList() must have size 1
+  }
+
   it must "respect custom naming of stages" in {
     val input = Source
       .single("t")

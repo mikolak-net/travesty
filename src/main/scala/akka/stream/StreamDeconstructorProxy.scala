@@ -59,7 +59,8 @@ class StreamDeconstructorProxy(typeRegistry: Registry) {
         edgeConstructions ++= module.shape.outlets.zipWithIndex.map { case (o, i) => (currentNode, i, inOffset + slots(o.id)) }
       case Pop | PushNotUsed           => //supported, no-op
       case EnterIsland(_) | ExitIsland => //supported, no-op (FIXME: process)
-      case Compose(_, _)               => //suported, no-op currently (FIXME: possibly include mat virtual nodes)
+      case Compose(_, _)               => //supported, no-op currently (FIXME: possibly include mat virtual nodes)
+      case Transform(_)                => //supported, no-op currently (FIXME: needs to be processed for #2)
     }
 
     edgeConstructions.foreach {
