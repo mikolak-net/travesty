@@ -19,6 +19,10 @@ image::doc/example_graph.svg[]
 
 == What's new?
 
+=== 0.9
+
+- Added support for partial graphs (see below for example).
+
 === 0.8
 
 - Added "manual support" for typed diagrams/graphs (see link:#typed-diagrams[Typed diagrams]),
@@ -61,6 +65,29 @@ travesty.toFile(graph, OutputFormat.SVG)("/tmp/stream.svg")
 //render as text "image"
 log.info(travesty.toString(graph)) //take care NOT to wrap the text
 ----
+
+=== Partial graphs
+
+Travesty now supports Akka Stream graphs with any shape.
+
+For example, this:
+
+```scala
+Flow[String].map(_ + "a").to(Sink.ignore)
+```
+
+will render as:
+
+image::doc/example_partial_graph.svg[]
+
+The labels for open inlets and outlets are configurable via the `partial-names` section of the config:
+
+```hocon
+travesty.partial-names {
+        inlet  = "*INLET*"
+        outlet = "*OUTLET*"
+}
+```
 
 === Typed diagrams
 
