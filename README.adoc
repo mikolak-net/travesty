@@ -42,8 +42,8 @@ Add to your `build.sbt`
 //repo of dependency used for text rendering
 resolvers += "indvd00m-github-repo" at "https://raw.githubusercontent.com/indvd00m/maven-repo/master/repository"
 
-"net.mikolak" %% "travesty" % "0.8_AKKAVERSION"
-//for example "net.mikolak" %% "travesty" % "0.8_2.5.11"
+"net.mikolak" %% "travesty" % "0.9_AKKAVERSION"
+//for example "net.mikolak" %% "travesty" % "0.9_2.5.11"
 ----
 
 Where `AKKAVERSION` is the version of Akka (Streams) you're using in your project. Currently supported
