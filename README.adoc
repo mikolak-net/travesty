@@ -68,6 +68,137 @@ travesty.toFile(graph, OutputFormat.SVG)("/tmp/stream.svg")
 log.info(travesty.toString(graph)) //take care NOT to wrap the text
 ----
 
+==== Example text output
+
+Here's how a typical `travesty.toString(graph)` may look like:
+
+[source]
+----
+                 *********                                                                                                                                  *******                
+              ****       ****                                                                                                                             **       **              
+             *               *                                                                                                                                                     
+                  *INLET*                                                                                                                               *   seqSink   *            
+             *               *                                                                                                                                                     
+              ****       ****                                                                                                                  ●●●        **       **              
+                 *********         ●●●                                                                                                        ●●  ●●        *******                
+                                      ●●●●●                                                                                                 ●●   ●●                                
+                                           ●●●●●●  ●                                                                                   ●●●●●    ●                                  
+                                                 ●●●●●           *********                                  *********             ●●●●●                                            
+                                                   ●●●●       ****       ****                             ***       ***        ●●●                                                 
+                                                             *               *               ●●          *             *                                                           
+                                                                 ZipWith2            ●●●●●●●●● ●●       *   broadcast   *                                                          
+                                                             *               *                ●●         *             *                                                           
+                                                              ****       ****                ●            ***       ***                                                            
+                                                   ●●●●          *********                                  *********          ●●                                                  
+                                            ●●●●●●●●●●                                                                           ●●●●       ●                                      
+                                        ●●●●       ●                                                                                 ●●●●●   ●●                                    
+               *************          ●●                                                                                                  ●●●●●●         *************             
+            *******************                                                                                                            ●●          *******   *******           
+           **                 **                                                                                                                      *                 *          
+               singleSource                                                                                                                          *     *OUTLET*      *         
+           **                 **                                                                                                                      *                 *          
+            *******************                                                                                                                        *******   *******           
+               *************                                                                                                                             *************             
+                                                                                                                                                                                   
+                                                                                                                                                                                   
+                                                                                                                                                                                   
+                                                                                                                                                                                   
+                                                                                                                                                                                   
+                                                                                                                                                                                   
+                                                                          Flow[String,String,akka.NotUsed] 
+----
+
+And here's the same example in a vertical orientation, i.e. `travesty.toString(graph, direction = BottomToTop)`:
+
+[source]
+----
+               *************                               *********           
+            *******************                         ****       ****        
+           **                 **                       *               *       
+               singleSource                                 *INLET*            
+           **                 **                       *               *       
+            *******************                         ****       ****        
+               *************                               *********           
+                                                                               
+                                                                               
+                          ●                              ●                     
+                           ●                            ●                      
+                           ●                            ●                      
+                            ●                          ●                       
+                             ●                        ●                        
+                              ●                      ●                         
+                              ●                      ●                         
+                               ●                    ●                          
+                                ●                  ●                           
+                                 ● ●            ● ●                            
+                                  ●●           ● ●                             
+                                 ● ●           ● ●●                            
+                                  ●●●         ●●●                              
+                                    ●         ●                                
+                                                                               
+                                     *********                                 
+                                  ****       ****                              
+                                 *               *                             
+                                     ZipWith2                                  
+                                 *               *                             
+                                  ****       ****                              
+                                     *********                                 
+                                                                               
+                                                                               
+                                         ●                                     
+                                         ●                                     
+                                         ●                                     
+                                         ●                                     
+                                         ●                                     
+                                         ●                                     
+                                         ●                                     
+                                         ●                                     
+                                         ●                                     
+                                        ●● ●                                   
+                                        ● ●                                    
+                                         ●●                                    
+                                         ●                                     
+                                                                               
+                                                                               
+                                     *********                                 
+                                   ***       ***                               
+                                  *             *                              
+                                 *   broadcast   *                             
+                                  *             *                              
+                                   ***       ***                               
+                                     *********                                 
+                                                                               
+                                                                               
+                                     ●        ●                                
+                                    ●          ●                               
+                                   ●           ●                               
+                                  ●             ●                              
+                                 ●               ●                             
+                                ●                 ●                            
+                               ●                   ●                           
+                              ●                     ●                          
+                              ●                      ●                         
+                            ●●                        ●●                       
+                            ● ●                      ● ●                       
+                           ●●●                        ●●●                      
+                           ●                            ●                      
+                                                                               
+                                                                               
+                *************                             *******              
+              *******   *******                         **       **            
+             *    *OUTLET*     *                          seqSink              
+            *                   *                     *             *          
+             *                 *                                               
+              *******   *******                         **       **            
+                *************                             *******              
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+                                                                               
+                        Flow[String,String,akka.NotUsed] 
+----
+
 === Partial graphs
 
 Travesty now supports Akka Stream graphs with any shape.
