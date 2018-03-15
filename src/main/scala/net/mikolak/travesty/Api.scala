@@ -6,14 +6,15 @@ import java.io.File
 import akka.stream.StreamDeconstructorProxy
 import gremlin.scala._
 import guru.nidi.graphviz.engine.Graphviz
+import net.mikolak.travesty.processing.AkkaGraphCloser
 import net.mikolak.travesty.render.TypeNameSimplifier
 import net.mikolak.travesty.setup.GraphvizEngineType
-
 import org.log4s._
 
 import scala.reflect.runtime.universe._
 
-private[travesty] class Api(deconstruct: StreamDeconstructorProxy,
+private[travesty] class Api(akkaGraphCloser: AkkaGraphCloser,
+                            deconstruct: StreamDeconstructorProxy,
                             typeNameSimplifier: TypeNameSimplifier,
                             lowLevelApi: VizGraphProcessor,
                             engines: List[GraphvizEngineType.Value]) {
@@ -37,7 +38,8 @@ private[travesty] class Api(deconstruct: StreamDeconstructorProxy,
   }
 
   def toAbstractGraph[T <: AkkaStream: TypeTag](akkaGraph: T): ScalaGraph = {
-    val traversed     = deconstruct(akkaGraph)
+    val closedGraph   = akkaGraphCloser(akkaGraph)
+    val traversed     = deconstruct(closedGraph)
     val graphTypeName = typeNameSimplifier(typeOf[T].toString)
     traversed.variables().set(properties.graph.GraphLabelKey, graphTypeName)
 

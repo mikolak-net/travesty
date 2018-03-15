@@ -9,6 +9,7 @@ import net.mikolak.travesty.render.TypeNameSimplifier
 import net.mikolak.travesty.{Api, Registry, VizGraphProcessor}
 import net.ceedubs.ficus.readers.namemappers.implicits.hyphenCase
 import net.ceedubs.ficus.readers.EnumerationReader._
+import net.mikolak.travesty.processing.AkkaGraphCloser
 
 private[travesty] object Wiring {
 
@@ -16,8 +17,10 @@ private[travesty] object Wiring {
   lazy val config     = baseConfig.as[TravestyConfig]("travesty")
   import config.cache
   import config.engines
+  import config.partialNames
 
   lazy val registry                 = wire[Registry]
+  lazy val akkaGraphCloser          = wire[AkkaGraphCloser]
   lazy val streamDeconstructorProxy = wire[StreamDeconstructorProxy]
   lazy val packageNameSimplifier    = wire[TypeNameSimplifier]
   lazy val vizGraphProcessor        = wire[VizGraphProcessor]

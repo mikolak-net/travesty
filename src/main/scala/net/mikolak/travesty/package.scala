@@ -11,7 +11,7 @@ import scala.reflect.runtime.universe._
 
 package object travesty {
 
-  type AkkaStream = Graph[_ <: ClosedShape, _]
+  type AkkaStream = Graph[_ <: Shape, _]
 
   def toImage[T <: AkkaStream: TypeTag](akkaGraph: T,
                                         format: ImageFormat,
