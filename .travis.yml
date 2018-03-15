@@ -11,4 +11,4 @@ env:
   - akkaVersion=2.5.5
   - akkaVersion=2.5.4
 script:
-  - sbt ++$TRAVIS_SCALA_VERSION -DakkaVersion=$akkaVersion ';akkaVersion ;test'
+  - sbt ++$TRAVIS_SCALA_VERSION -DakkaVersion=$akkaVersion test

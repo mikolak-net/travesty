@@ -2,9 +2,7 @@ organization := "net.mikolak"
 name := "travesty"
 version in ThisBuild ~= (_ + s"_$akkaVersion")
 
-lazy val akkaVersion = settingKey[String]("Akka version used for this build")
-
-akkaVersion := Option(System.getProperty("akkaVersion")).getOrElse(defaultAkkaVersion)
+lazy val akkaVersion = Option(System.getProperty("akkaVersion")).getOrElse(defaultAkkaVersion)
 lazy val defaultAkkaVersion = "2.5.9"
 
 scalaVersion := "2.12.4"
@@ -13,7 +11,7 @@ lazy val gremlinVersion = "3.3.0"
 resolvers += "indvd00m-github-repo" at "https://raw.githubusercontent.com/indvd00m/maven-repo/master/repository"
 
 libraryDependencies ++= Seq(
-  "com.typesafe.akka" %% "akka-stream"  % akkaVersion.value,
+  "com.typesafe.akka" %% "akka-stream"  % akkaVersion,
   "guru.nidi"         % "graphviz-java" % "0.2.2",
   //TODO: "com.github.mdr" %% "ascii-graphs" % "0.0.3", pending 2.12
   "com.indvd00m.ascii.render" % "ascii-render"        % "1.2.1", //used instead of above^
