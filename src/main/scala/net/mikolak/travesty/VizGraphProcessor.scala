@@ -19,7 +19,8 @@ class VizGraphProcessor(typeNameSimplifier: TypeNameSimplifier) {
     def implOf(v: Vertex) = v.asScala.property(properties.node.StageImplementation).value()
 
     val implNames = in.V().l().foldRight(Map.empty[AkkaStage, String]) { (v, map) =>
-      val baseName = v.asScala.property(properties.node.StageName).value()
+      // @fixme default stage name might not be the best solution
+      val baseName = v.asScala.property(properties.node.StageName).orElse("default stage name")
       val impl     = implOf(v)
       if (map.contains(impl)) {
         map

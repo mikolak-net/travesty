@@ -101,6 +101,17 @@ class VizGraphProcessorSpec extends FlatSpec with MustMatchers with MustVerb {
       .map(_.toString)
   }
 
+  it must "support unnamed stages" in {
+    val input = Source.single("hello")
+      .log("logger")
+      .to(Sink.head)
+
+    val output = calculateResult(input)
+
+    output.nodeList() must have size 3
+    output.linkList() must have size 2
+  }
+
   implicit class MutGraphExtras(g: MutableGraph) {
 
     def nodeList() = g.nodes().asScala.toList
