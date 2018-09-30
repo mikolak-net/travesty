@@ -6,6 +6,7 @@ import guru.nidi.graphviz.model.{MutableGraph, Graph => VizGraph}
 import guru.nidi.graphviz.parse.Parser
 import net.mikolak.travesty
 import net.mikolak.travesty.render.TypeNameSimplifier
+import net.mikolak.travesty.setup.RenderConfig
 import org.scalatest.words.MustVerb
 import org.scalatest.{FlatSpec, MustMatchers}
 
@@ -14,7 +15,8 @@ import scala.reflect.runtime.universe._
 
 class VizGraphProcessorSpec extends FlatSpec with MustMatchers with MustVerb {
 
-  val testInst                                         = new VizGraphProcessor(new TypeNameSimplifier)
+  val defaultStageName                                 = "test-default-name"
+  val testInst                                         = new VizGraphProcessor(new TypeNameSimplifier, RenderConfig(defaultStageName))
   def tested[T <: AkkaStream: TypeTag](t: T): VizGraph = testInst.toVizGraph(travesty.toAbstractGraph(t))
 
   def calculateResult[T <: AkkaStream: TypeTag](t: T): MutableGraph = Parser.read(tested(t).toString)
@@ -108,6 +110,7 @@ class VizGraphProcessorSpec extends FlatSpec with MustMatchers with MustVerb {
 
     val output = calculateResult(input)
 
+    output.nodeList().map(_.label().toString) must contain (defaultStageName)
     output.nodeList() must have size 3
     output.linkList() must have size 2
   }
