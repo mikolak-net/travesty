@@ -20,6 +20,10 @@ image::doc/example_graph.svg[]
 
 == What's new?
 
+=== 0.9.1
+
+- Fixed issue with graph not generating when some of the stages have no names (thanks to @FXHibon for the fix).
+
 === 0.9
 
 - Added support for partial graphs (see below for example),
