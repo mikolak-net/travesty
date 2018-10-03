@@ -3,7 +3,7 @@ name := "travesty"
 version in ThisBuild ~= (_ + s"_$akkaVersion")
 
 lazy val akkaVersion = Option(System.getProperty("akkaVersion")).getOrElse(defaultAkkaVersion)
-lazy val defaultAkkaVersion = "2.5.9"
+lazy val defaultAkkaVersion = "2.5.17"
 
 scalaVersion := "2.12.7"
 lazy val gremlinVersion = "3.3.0"
