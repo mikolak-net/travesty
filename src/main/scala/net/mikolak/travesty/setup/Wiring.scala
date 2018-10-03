@@ -18,6 +18,7 @@ private[travesty] object Wiring {
   import config.cache
   import config.engines
   import config.partialNames
+  import config.render
 
   lazy val registry                 = wire[Registry]
   lazy val akkaGraphCloser          = wire[AkkaGraphCloser]

@@ -6,8 +6,9 @@ import gremlin.scala._
 import guru.nidi.graphviz.attribute.{MutableAttributed, Rank}
 import net.mikolak.travesty.properties.graph.GraphLabelKey
 import net.mikolak.travesty.render.TypeNameSimplifier
+import net.mikolak.travesty.setup.RenderConfig
 
-class VizGraphProcessor(typeNameSimplifier: TypeNameSimplifier) {
+class VizGraphProcessor(typeNameSimplifier: TypeNameSimplifier, renderConfig: RenderConfig) {
 
   import VizGraphProcessor._
 
@@ -19,7 +20,7 @@ class VizGraphProcessor(typeNameSimplifier: TypeNameSimplifier) {
     def implOf(v: Vertex) = v.asScala.property(properties.node.StageImplementation).value()
 
     val implNames = in.V().l().foldRight(Map.empty[AkkaStage, String]) { (v, map) =>
-      val baseName = v.asScala.property(properties.node.StageName).value()
+      val baseName = v.asScala.property(properties.node.StageName).orElse(renderConfig.defaultStageName)
       val impl     = implOf(v)
       if (map.contains(impl)) {
         map

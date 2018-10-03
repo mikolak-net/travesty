@@ -5,7 +5,7 @@ version in ThisBuild ~= (_ + s"_$akkaVersion")
 lazy val akkaVersion = Option(System.getProperty("akkaVersion")).getOrElse(defaultAkkaVersion)
 lazy val defaultAkkaVersion = "2.5.9"
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.7"
 lazy val gremlinVersion = "3.3.0"
 
 resolvers += "indvd00m-github-repo" at "https://raw.githubusercontent.com/indvd00m/maven-repo/master/repository"
