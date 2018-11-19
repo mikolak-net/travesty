@@ -203,15 +203,39 @@ And here's the same example in a vertical orientation, i.e. `travesty.toString(g
                         Flow[String,String,akka.NotUsed] 
 ----
 
+=== Naming stages
+
+Travesty uses the `name` attribute, which all graph stages have, to label the nodes of the graphs. This means you can
+easily override the naming by invoking `.named` on the relevant stage.
+
+This example:
+
+[source,scala]
+----
+Source.single("t").named("beginning") <1>
+ .map(_ + "a")
+ .to(Sink.ignore.named("end")) <2>
+----
+<1> custom name
+<2> another custom name
+
+will render as:
+
+image::doc/example_named.svg[]
+
+Alternatively, if you're making a one-shot sketch, you can render the image as an SVG, and edit the names as text in any SVG editor such as Inkscape.
+
+
 === Partial graphs
 
 Travesty now supports Akka Stream graphs with any shape.
 
 For example, this:
 
-```scala
+[source,scala]
+----
 Flow[String].map(_ + "a").to(Sink.ignore)
-```
+----
 
 will render as:
 
@@ -219,12 +243,13 @@ image::doc/example_partial_graph.svg[]
 
 The labels for open inlets and outlets are configurable via the `partial-names` section of the config:
 
-```hocon
+[source,hocon]
+----
 travesty.partial-names {
         inlet  = "*INLET*"
         outlet = "*OUTLET*"
 }
-```
+----
 
 === Typed diagrams
 

@@ -1,0 +1,38 @@
+<svg width="289pt" height="69pt"
+ viewBox="0.00 0.00 288.65 68.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 64.8)">
+<title>%0</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-64.8 284.6504,-64.8 284.6504,4 -4,4"/>
+<text text-anchor="middle" x="140.3252" y="-44.2" font-family="Times,serif" font-size="14.00" fill="#000000">RunnableGraph[akka.NotUsed]</text>
+<!-- end -->
+<g id="node1" class="node">
+<title>end</title>
+<ellipse fill="none" stroke="#000000" cx="253.6504" cy="-18" rx="27" ry="18"/>
+<text text-anchor="middle" x="253.6504" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#000000">end</text>
+</g>
+<!-- beginning -->
+<g id="node2" class="node">
+<title>beginning</title>
+<ellipse fill="none" stroke="#000000" cx="49.6614" cy="-18" rx="49.8233" ry="18"/>
+<text text-anchor="middle" x="49.6614" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#000000">beginning</text>
+</g>
+<!-- map -->
+<g id="node3" class="node">
+<title>map</title>
+<ellipse fill="none" stroke="#000000" cx="162.9866" cy="-18" rx="27.8286" ry="18"/>
+<text text-anchor="middle" x="162.9866" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#000000">map</text>
+</g>
+<!-- beginning&#45;&gt;map -->
+<g id="edge2" class="edge">
+<title>beginning&#45;&gt;map</title>
+<path fill="none" stroke="#000000" d="M99.3675,-18C107.9815,-18 116.8132,-18 125.0501,-18"/>
+<polygon fill="#000000" stroke="#000000" points="125.1043,-21.5001 135.1042,-18 125.1042,-14.5001 125.1043,-21.5001"/>
+</g>
+<!-- map&#45;&gt;end -->
+<g id="edge1" class="edge">
+<title>map&#45;&gt;end</title>
+<path fill="none" stroke="#000000" d="M190.6814,-18C198.7523,-18 207.7068,-18 216.2705,-18"/>
+<polygon fill="#000000" stroke="#000000" points="216.4368,-21.5001 226.4368,-18 216.4368,-14.5001 216.4368,-21.5001"/>
+</g>
+</g>
+</svg>
