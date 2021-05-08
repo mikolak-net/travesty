@@ -1,12 +1,12 @@
 organization := "net.mikolak"
 name := "travesty"
-version in ThisBuild ~= (_ + s"_$akkaVersion")
+ThisBuild / version ~= (_ + s"_$akkaVersion")
 
 lazy val akkaVersion = Option(System.getProperty("akkaVersion")).getOrElse(defaultAkkaVersion)
-lazy val defaultAkkaVersion = "2.5.17"
+lazy val defaultAkkaVersion = "2.6.14"
 
-scalaVersion := "2.12.7"
-lazy val gremlinVersion = "3.3.0"
+scalaVersion := "2.13.5"
+lazy val gremlinVersion = "3.4.4"
 
 resolvers += "indvd00m-github-repo" at "https://raw.githubusercontent.com/indvd00m/maven-repo/master/repository"
 
@@ -15,22 +15,22 @@ libraryDependencies ++= Seq(
   "guru.nidi"         % "graphviz-java" % "0.2.2",
   //TODO: "com.github.mdr" %% "ascii-graphs" % "0.0.3", pending 2.12
   "com.indvd00m.ascii.render" % "ascii-render"        % "1.2.1", //used instead of above^
-  "org.scala-lang.modules"    %% "scala-java8-compat" % "0.8.0",
+  "org.scala-lang.modules"    %% "scala-java8-compat" % "0.9.1",
   "org.scala-lang"            % "scala-reflect"       % scalaVersion.value,
-  "org.log4s"                 %% "log4s"              % "1.4.0",
-  "com.iheart"                %% "ficus"              % "1.4.3"
+  "org.log4s"                 %% "log4s"              % "1.9.0",
+  "com.iheart"                %% "ficus"              % "1.4.7"
 ) ++ macwireDeps ++ scalaCacheDeps ++ gremlinDeps ++ testDeps
 
-lazy val macwireDeps = Seq("macros", "util").map("com.softwaremill.macwire" %% _ % "2.3.0")
+lazy val macwireDeps = Seq("macros", "util").map("com.softwaremill.macwire" %% _ % "2.3.7")
 lazy val gremlinDeps = Seq("com.michaelpollmeier" %% "gremlin-scala" % s"$gremlinVersion.4",
                            "org.apache.tinkerpop" % "tinkergraph-gremlin" % gremlinVersion)
-lazy val scalaCacheDeps = Seq("core", "caffeine").map(n => "com.github.cb372" %% s"scalacache-$n" % "0.22.0")
+lazy val scalaCacheDeps = Seq("core", "caffeine").map(n => "com.github.cb372" %% s"scalacache-$n" % "0.28.0")
 
-lazy val testDeps = Seq("org.scalatest" %% "scalatest" % "3.0.4", "org.slf4j" % "slf4j-simple" % "1.7.5").map(_ % "test")
+lazy val testDeps = Seq("org.scalatest" %% "scalatest" % "3.0.9", "org.slf4j" % "slf4j-simple" % "1.7.5").map(_ % "test")
 
 dependencyOverrides += "commons-io" % "commons-io" % "2.4"
 
-fork in Test := true
+Test / fork  := true
 
 //Sonatype OSS stuff (based on https://github.com/xerial/sbt-sonatype )
 publishTo := Some(

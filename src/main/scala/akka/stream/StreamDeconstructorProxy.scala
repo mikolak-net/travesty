@@ -24,12 +24,12 @@ class StreamDeconstructorProxy(typeRegistry: Registry) {
 
   private def processTraversal(traversal: Traversal): ScalaGraph = {
     logGraph(traversal)
-    val graph = TinkerGraph.open.asScala
+    implicit val graph: ScalaGraph = TinkerGraph.open.asScala
 
-    nodesFrom(traversal, graph)
+    nodesFrom(traversal)
   }
 
-  private def nodesFrom(traversal: Traversal, graph: ScalaGraph): ScalaGraph = {
+  private def nodesFrom(traversal: Traversal)(implicit graph: ScalaGraph): ScalaGraph = {
     var inputMap                 = Map.empty[Int, ScalaVertex]
     var attributeStack           = List.empty[Attributes]
     var currentNode: ScalaVertex = null

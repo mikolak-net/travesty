@@ -227,7 +227,7 @@ class TravestyToGraphSpec extends FlatSpec with MustMatchers with MustVerb {
     tested(Source.empty[String].to(Sink.ignore)).props(GraphLabelKey).value must be("RunnableGraph[akka.NotUsed]")
 
     tested(Source.empty[String].toMat(Sink.seq[String])(Keep.right)).props(GraphLabelKey).value must be(
-      "RunnableGraph[Future[immutable.Seq[String]]]")
+      "RunnableGraph[Future[Seq[String]]]")
   }
 
   import properties.edge._
