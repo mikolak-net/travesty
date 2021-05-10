@@ -5,7 +5,7 @@
 :toc:
 :icons: font
 
-image:https://travis-ci.org/mikolak-net/travesty.svg?branch=master["Build Status", link="https://travis-ci.org/mikolak-net/travesty"]
+image:https://travis-ci.org/mikolak-net/travesty.svg?branch=master["Build Status", link="https://travis-ci.org/mikolak-net/travesty"]image:https://maven-badges.herokuapp.com/maven-central/net.mikolak/travesty_2.13/badge.svg["Latest 2.13 version", link="https://maven-badges.herokuapp.com/maven-central/net.mikolak/travesty_2.13"]
 image:https://maven-badges.herokuapp.com/maven-central/net.mikolak/travesty_2.12/badge.svg["Latest 2.12 version", link="https://maven-badges.herokuapp.com/maven-central/net.mikolak/travesty_2.12"]
 
 == What is it?
